@@ -1,0 +1,61 @@
+name: Sharded Automation Run
+
+on:
+  workflow_dispatch:
+    inputs:
+      totalLoops:
+        description: "Total loops across all shards"
+        required: false
+        default: "20"
+
+jobs:
+  run-shard:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install
+
+      - name: Restore session file from secret
+        if: ${{ secrets.NAUKRI_SESSION_JSON != '' }}
+        shell: pwsh
+        run: |
+          $content = @'
+          ${{ secrets.NAUKRI_SESSION_JSON }}
+          '@
+          Set-Content -Path naukri-session.json -Value $content -NoNewline
+
+      - name: Run shard ${{ matrix.shardIndex }}/3
+        shell: pwsh
+        env:
+          SHARD_INDEX: ${{ matrix.shardIndex }}
+          SHARD_TOTAL: 3
+          TOTAL_LOOPS: ${{ github.event.inputs.totalLoops }}
+          HEADLESS: "true"
+          BROWSER_CHANNEL: "msedge"
+        run: npx tsx tests/naukri-apply.spec.ts
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shard-${{ matrix.shardIndex }}-logs
+          path: |
+            logs/**
+            debug-*.png

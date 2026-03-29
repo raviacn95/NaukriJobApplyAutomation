@@ -9,11 +9,25 @@ const config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
 
 const TARGET_URL: string = config.targetUrl;
 const SESSION_FILE = path.join(__dirname, '..', 'naukri-session.json');
-const JOBS_TO_SELECT: number = config.jobsPerLoop;
-const TOTAL_LOOPS: number = config.totalLoops;
+const JOBS_TO_SELECT: number = getPositiveIntEnv('JOBS_PER_LOOP', config.jobsPerLoop);
+const TOTAL_LOOPS: number = getPositiveIntEnv('TOTAL_LOOPS', config.totalLoops);
 const LOGIN_TIMEOUT: number = config.loginTimeoutMs;
-const HEADLESS: boolean = config.headless;
+const HEADLESS: boolean = process.env.HEADLESS
+  ? process.env.HEADLESS.toLowerCase() === 'true'
+  : config.headless;
 const CONFIG_ANSWERS: Record<string, string> = config.defaultAnswers;
+const BROWSER_CHANNEL: string | undefined = process.env.BROWSER_CHANNEL;
+
+function getPositiveIntEnv(name: string, fallback: number): number {
+  const raw = process.env[name];
+  if (!raw) return fallback;
+  const parsed = Number.parseInt(raw, 10);
+  if (Number.isNaN(parsed) || parsed < 1) return fallback;
+  return parsed;
+}
+
+const SHARD_TOTAL = getPositiveIntEnv('SHARD_TOTAL', 1);
+const SHARD_INDEX = getPositiveIntEnv('SHARD_INDEX', 1);
 
 function humanDelay(min = 800, max = 1800) {
   return new Promise((r) => setTimeout(r, min + Math.floor(Math.random() * (max - min))));
@@ -569,11 +583,21 @@ async function selectCheckboxesAndApply(page: Page): Promise<number> {
   process.on('SIGTERM', shutdown);
 
   try {
-    browser = await chromium.launch({
-      channel: 'msedge',
+    if (SHARD_INDEX > SHARD_TOTAL) {
+      throw new Error(`Invalid shard assignment: SHARD_INDEX=${SHARD_INDEX}, SHARD_TOTAL=${SHARD_TOTAL}`);
+    }
+
+    const launchOptions: Parameters<typeof chromium.launch>[0] = {
       headless: HEADLESS,
       args: ['--disable-blink-features=AutomationControlled'],
-    });
+    };
+    if (BROWSER_CHANNEL && BROWSER_CHANNEL.trim().length > 0) {
+      launchOptions.channel = BROWSER_CHANNEL;
+    } else {
+      launchOptions.channel = 'msedge';
+    }
+
+    browser = await chromium.launch(launchOptions);
 
     context = fs.existsSync(SESSION_FILE)
       ? await browser.newContext({ storageState: SESSION_FILE })
@@ -602,10 +626,18 @@ async function selectCheckboxesAndApply(page: Page): Promise<number> {
     await page.waitForTimeout(3000);
     await dismissPopups(page);
 
-    console.log(`Config: ${TOTAL_LOOPS} loops, ${JOBS_TO_SELECT} jobs/loop, headless=${HEADLESS}`);
+    const shardLoops: number[] = [];
+    for (let loop = 1; loop <= TOTAL_LOOPS; loop++) {
+      if ((loop - 1) % SHARD_TOTAL === (SHARD_INDEX - 1)) {
+        shardLoops.push(loop);
+      }
+    }
+
+    console.log(`Config: totalLoops=${TOTAL_LOOPS}, jobsPerLoop=${JOBS_TO_SELECT}, headless=${HEADLESS}`);
+    console.log(`Shard config: shard=${SHARD_INDEX}/${SHARD_TOTAL}, assignedLoops=${shardLoops.length}`);
     let totalApplied = 0;
 
-    for (let loop = 1; loop <= TOTAL_LOOPS; loop++) {
+    for (const loop of shardLoops) {
       console.log(`\n========== LOOP ${loop}/${TOTAL_LOOPS} ==========`);
 
       // Scroll to load content
@@ -631,7 +663,7 @@ async function selectCheckboxesAndApply(page: Page): Promise<number> {
       // Save session after each loop
       if (context) await context.storageState({ path: SESSION_FILE }).catch(() => {});
 
-      if (loop < TOTAL_LOOPS) {
+      if (loop !== shardLoops[shardLoops.length - 1]) {
         console.log(`\nRefreshing page for next loop...`);
         // Wait for any save-redirect to complete before navigating
         await page.waitForLoadState('load', { timeout: 15000 }).catch(() => {});
@@ -657,7 +689,7 @@ async function selectCheckboxesAndApply(page: Page): Promise<number> {
     }
 
     console.log(`\n========== FINISHED ==========`);
-    console.log(`Total jobs applied across ${TOTAL_LOOPS} loops: ${totalApplied}`);
+    console.log(`Total jobs applied by shard ${SHARD_INDEX}/${SHARD_TOTAL}: ${totalApplied}`);
     console.log('\n' + getHealSummary());
     if (context) await context.storageState({ path: SESSION_FILE }).catch(() => {});
     if (browser) await browser.close();

@@ -34,6 +34,27 @@ Or use the PowerShell runner:
 ./run-naukri-apply.ps1
 ```
 
+## Sharding From One GitHub Repo
+
+This project supports running in 3 parallel shards from a single repository using GitHub Actions.
+
+- Workflow file: `.github/workflows/sharded-automation.yml`
+- Trigger: `workflow_dispatch`
+- Parallel jobs: shard `1/3`, `2/3`, `3/3`
+
+Optional environment overrides used by the script:
+
+- `SHARD_INDEX`: current shard index (1-based)
+- `SHARD_TOTAL`: total number of shards
+- `TOTAL_LOOPS`: override `config.json` total loops
+- `JOBS_PER_LOOP`: override `config.json` jobs per loop
+- `HEADLESS`: `true` or `false`
+- `BROWSER_CHANNEL`: browser channel such as `msedge`
+
+### Session In CI
+
+If login is required in GitHub Actions, add repository secret `NAUKRI_SESSION_JSON` with the full JSON content of your local `naukri-session.json` file.
+
 ## Configuration
 
 Update `config.json` to control:
