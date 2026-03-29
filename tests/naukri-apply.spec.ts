@@ -17,6 +17,15 @@ const HEADLESS: boolean = process.env.HEADLESS
   : config.headless;
 const CONFIG_ANSWERS: Record<string, string> = config.defaultAnswers;
 const BROWSER_CHANNEL: string | undefined = process.env.BROWSER_CHANNEL;
+const ALLOW_MANUAL_LOGIN: boolean = process.env.ALLOW_MANUAL_LOGIN
+  ? process.env.ALLOW_MANUAL_LOGIN.toLowerCase() === 'true'
+  : true;
+const REQUIRE_SESSION_FILE: boolean = process.env.REQUIRE_SESSION_FILE
+  ? process.env.REQUIRE_SESSION_FILE.toLowerCase() === 'true'
+  : false;
+const FAIL_ON_ZERO_APPLIED: boolean = process.env.FAIL_ON_ZERO_APPLIED
+  ? process.env.FAIL_ON_ZERO_APPLIED.toLowerCase() === 'true'
+  : false;
 
 function getPositiveIntEnv(name: string, fallback: number): number {
   const raw = process.env[name];
@@ -44,6 +53,9 @@ async function retry<T>(fn: () => Promise<T>, attempts = 3, backoffMs = 2000): P
 async function ensureLoggedIn(page: Page, context: BrowserContext) {
   const url = page.url();
   if (url.includes('/nlogin') || url.includes('/login') || url.includes('/authwall')) {
+    if (!ALLOW_MANUAL_LOGIN) {
+      throw new Error('Login required but ALLOW_MANUAL_LOGIN=false. Provide a valid naukri-session.json via secret/session file.');
+    }
     console.log('Login required. Please log in manually. Waiting up to 3 minutes...');
     await page.waitForURL(
       (u) => {
@@ -599,6 +611,10 @@ async function selectCheckboxesAndApply(page: Page): Promise<number> {
 
     browser = await chromium.launch(launchOptions);
 
+    if (REQUIRE_SESSION_FILE && !fs.existsSync(SESSION_FILE)) {
+      throw new Error('REQUIRE_SESSION_FILE=true but naukri-session.json was not found.');
+    }
+
     context = fs.existsSync(SESSION_FILE)
       ? await browser.newContext({ storageState: SESSION_FILE })
       : await browser.newContext();
@@ -635,6 +651,14 @@ async function selectCheckboxesAndApply(page: Page): Promise<number> {
 
     console.log(`Config: totalLoops=${TOTAL_LOOPS}, jobsPerLoop=${JOBS_TO_SELECT}, headless=${HEADLESS}`);
     console.log(`Shard config: shard=${SHARD_INDEX}/${SHARD_TOTAL}, assignedLoops=${shardLoops.length}`);
+
+    if (shardLoops.length === 0) {
+      console.log(`No loops assigned to shard ${SHARD_INDEX}/${SHARD_TOTAL}. Exiting cleanly.`);
+      if (context) await context.storageState({ path: SESSION_FILE }).catch(() => {});
+      if (browser) await browser.close();
+      process.exit(0);
+    }
+
     let totalApplied = 0;
 
     for (const loop of shardLoops) {
@@ -690,6 +714,11 @@ async function selectCheckboxesAndApply(page: Page): Promise<number> {
 
     console.log(`\n========== FINISHED ==========`);
     console.log(`Total jobs applied by shard ${SHARD_INDEX}/${SHARD_TOTAL}: ${totalApplied}`);
+
+    if (FAIL_ON_ZERO_APPLIED && totalApplied === 0) {
+      throw new Error(`Shard ${SHARD_INDEX}/${SHARD_TOTAL} applied 0 jobs with FAIL_ON_ZERO_APPLIED=true.`);
+    }
+
     console.log('\n' + getHealSummary());
     if (context) await context.storageState({ path: SESSION_FILE }).catch(() => {});
     if (browser) await browser.close();

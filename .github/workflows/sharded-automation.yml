@@ -59,6 +59,9 @@ jobs:
           TOTAL_LOOPS: ${{ github.event.inputs.totalLoops }}
           HEADLESS: "true"
           BROWSER_CHANNEL: "msedge"
+          ALLOW_MANUAL_LOGIN: "false"
+          REQUIRE_SESSION_FILE: "true"
+          FAIL_ON_ZERO_APPLIED: "true"
         run: npx tsx tests/naukri-apply.spec.ts
 
       - name: Upload logs
