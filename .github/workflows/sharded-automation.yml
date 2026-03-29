@@ -1,6 +1,14 @@
 name: Sharded Automation Run
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/sharded-automation.yml
+      - tests/naukri-apply.spec.ts
+      - src/**
+      - config.json
   workflow_dispatch:
     inputs:
       totalLoops:
