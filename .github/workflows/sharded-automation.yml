@@ -41,13 +41,15 @@ jobs:
         run: npx playwright install
 
       - name: Restore session file from secret
-        if: ${{ secrets.NAUKRI_SESSION_JSON != '' }}
         shell: pwsh
+        env:
+          NAUKRI_SESSION_JSON: ${{ secrets.NAUKRI_SESSION_JSON }}
         run: |
-          $content = @'
-          ${{ secrets.NAUKRI_SESSION_JSON }}
-          '@
-          Set-Content -Path naukri-session.json -Value $content -NoNewline
+          if ($env:NAUKRI_SESSION_JSON -and $env:NAUKRI_SESSION_JSON.Trim().Length -gt 0) {
+            Set-Content -Path naukri-session.json -Value $env:NAUKRI_SESSION_JSON -NoNewline
+          } else {
+            Write-Host "NAUKRI_SESSION_JSON secret not set; continuing without restored session file."
+          }
 
       - name: Run shard ${{ matrix.shardIndex }}/3
         shell: pwsh
