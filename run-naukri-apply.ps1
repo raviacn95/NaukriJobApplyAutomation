@@ -2,7 +2,8 @@ $ErrorActionPreference = "Continue"
 
 $env:PATH = "C:\Program Files\nodejs;C:\Users\ravir\AppData\Roaming\npm;$env:PATH"
 
-Set-Location "c:\Users\ravir\Naukri_Automation"
+$ProjectDir = "c:\Users\ravir\Music\NaukriApply\NaukriJobApplyAutomation"
+Set-Location $ProjectDir
 
 if (-not (Test-Path "logs")) { New-Item -ItemType Directory -Path "logs" | Out-Null }
 
@@ -15,7 +16,7 @@ $logFile = "logs\run-$ts.log"
 
 $process = Start-Process -FilePath "C:\Program Files\nodejs\npx.cmd" `
   -ArgumentList "tsx", "tests/naukri-apply.spec.ts" `
-  -WorkingDirectory "c:\Users\ravir\Naukri_Automation" `
+  -WorkingDirectory $ProjectDir `
   -NoNewWindow -Wait -PassThru `
   -RedirectStandardOutput "$logFile.stdout" `
   -RedirectStandardError "$logFile.stderr"

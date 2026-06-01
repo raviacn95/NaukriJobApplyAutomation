@@ -50,23 +50,119 @@ async function retry<T>(fn: () => Promise<T>, attempts = 3, backoffMs = 2000): P
   throw lastErr;
 }
 
-async function ensureLoggedIn(page: Page, context: BrowserContext) {
-  const url = page.url();
-  if (url.includes('/nlogin') || url.includes('/login') || url.includes('/authwall')) {
-    if (!ALLOW_MANUAL_LOGIN) {
-      throw new Error('Login required but ALLOW_MANUAL_LOGIN=false. Provide a valid naukri-session.json via secret/session file.');
-    }
-    console.log('Login required. Please log in manually. Waiting up to 3 minutes...');
-    await page.waitForURL(
-      (u) => {
-        const s = u.toString();
-        return s.includes('naukri.com') && !s.includes('/nlogin') && !s.includes('/login') && !s.includes('/authwall');
-      },
-      { timeout: LOGIN_TIMEOUT }
-    );
-    console.log('Login successful! Saving session...');
-    await context.storageState({ path: SESSION_FILE }).catch(() => {});
+// ── Apply API monitoring ──────────────────────────────────────────────
+// Naukri submits applications via POST .../cloudgateway-workflow/v1/apply.
+// Watching the response status is the only reliable success signal: 200/201
+// means the application went through; 403 means Naukri rejected it (rate
+// limit / daily cap / session-token issue), regardless of what the UI shows.
+interface ApplyApiEvent { status: number; url: string; body: string; at: number }
+const applyApiEvents: ApplyApiEvent[] = [];
+
+function isApplyApiUrl(url: string): boolean {
+  return url.includes('workflow/v1/apply') || /\/apply(\?|$|:)/.test(url) || url.includes('applyWorkflow');
+}
+
+function attachApplyMonitor(page: Page): void {
+  page.on('response', (resp) => {
+    const url = resp.url();
+    if (!isApplyApiUrl(url)) return;
+    const status = resp.status();
+    resp
+      .text()
+      .catch(() => '')
+      .then((text) => {
+        const body = (text || '').slice(0, 200);
+        applyApiEvents.push({ status, url, body, at: Date.now() });
+        console.log(`[apply-api] HTTP ${status} ${url.split('?')[0].slice(-50)}${body ? ' :: ' + body : ''}`);
+      });
+  });
+}
+
+/** Return the status of the first apply-API response received after `sinceTs`, or null. */
+async function waitForApplyApiStatus(page: Page, sinceTs: number, timeoutMs = 12000): Promise<number | null> {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    const evt = applyApiEvents.find((e) => e.at >= sinceTs);
+    if (evt) return evt.status;
+    await page.waitForTimeout(300);
   }
+  return null;
+}
+
+function buildLaunchOptions(headless: boolean): Parameters<typeof chromium.launch>[0] {
+  const launchOptions: Parameters<typeof chromium.launch>[0] = {
+    headless,
+    args: ['--disable-blink-features=AutomationControlled'],
+  };
+  launchOptions.channel = BROWSER_CHANNEL && BROWSER_CHANNEL.trim().length > 0 ? BROWSER_CHANNEL : 'msedge';
+  return launchOptions;
+}
+
+/**
+ * Determine whether the current page represents a logged-in Naukri session.
+ * Logged-out signals (login URL or a visible login form) take priority; otherwise
+ * we look for a logged-in indicator or a known authenticated URL.
+ */
+async function isLoggedIn(page: Page): Promise<boolean> {
+  const url = page.url();
+
+  // Hard logged-out signals from the URL
+  if (
+    url.includes('/nlogin') ||
+    url.includes('/login') ||
+    url.includes('/authwall') ||
+    url.includes('/registration')
+  ) {
+    return false;
+  }
+
+  // A visible login form means we are not authenticated
+  const loginForm = await page
+    .locator('input#usernameField, input#passwordField, .login-layer, form[name="login-form"]')
+    .count()
+    .catch(() => 0);
+  if (loginForm > 0) return false;
+
+  // Authenticated URLs strongly imply a valid session
+  if (url.includes('/mnjuser') || url.includes('recommendedjobs')) return true;
+
+  // Otherwise look for the logged-in global nav / profile widgets
+  const loggedInIndicator = await page
+    .locator('.nI-gNb-drawer__bars, .nI-gNb-menuTrigger, .nI-gNb-icon-img, [class*="view-profile"], .mn-hdr__profile')
+    .count()
+    .catch(() => 0);
+  return loggedInIndicator > 0;
+}
+
+/**
+ * Wait for the user to complete a manual login in the visible browser, then
+ * persist the authenticated session to disk for future (possibly headless) runs.
+ */
+async function waitForManualLoginAndSave(page: Page, context: BrowserContext): Promise<void> {
+  const timeoutSec = Math.round(LOGIN_TIMEOUT / 1000);
+  console.log('\n========================================');
+  console.log('   MANUAL LOGIN REQUIRED');
+  console.log('========================================');
+  console.log('A browser window is open. Please log in to your Naukri account there.');
+  console.log(`Waiting up to ${timeoutSec}s for login to complete...`);
+
+  const deadline = Date.now() + LOGIN_TIMEOUT;
+  let loggedIn = false;
+  while (Date.now() < deadline) {
+    if (await isLoggedIn(page)) {
+      loggedIn = true;
+      break;
+    }
+    await page.waitForTimeout(2000);
+  }
+
+  if (!loggedIn) {
+    throw new Error(`Manual login was not completed within ${timeoutSec}s.`);
+  }
+
+  console.log('Login detected! Saving session to naukri-session.json for future runs...');
+  await context.storageState({ path: SESSION_FILE });
+  console.log(`Session saved at: ${SESSION_FILE}`);
 }
 
 async function dismissPopups(page: Page) {
@@ -406,7 +502,196 @@ async function handlePostApplyPopup(page: Page): Promise<void> {
   }
 }
 
-async function selectCheckboxesAndApply(page: Page): Promise<number> {
+/**
+ * Naukri's multi-apply button is rendered disabled (with the "opaque-button" class
+ * and a `disabled` attribute) until job selections are registered. Poll until it
+ * becomes genuinely clickable so we don't "click" a disabled button into the void.
+ */
+async function waitForApplyEnabled(page: Page, applyBtn: ReturnType<Page['locator']>, timeoutMs = 8000): Promise<boolean> {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    const state = await applyBtn
+      .evaluate((el: HTMLButtonElement) => ({
+        disabledAttr: el.hasAttribute('disabled') || el.getAttribute('aria-disabled') === 'true',
+        opaque: el.classList.contains('opaque-button'),
+        enabledProp: !el.disabled,
+      }))
+      .catch(() => null);
+    if (state && state.enabledProp && !state.disabledAttr && !state.opaque) {
+      return true;
+    }
+    await page.waitForTimeout(400);
+  }
+  return false;
+}
+
+/** One-time diagnostics to understand why an Apply click isn't registering. */
+async function dumpApplyDiagnostics(page: Page): Promise<void> {
+  console.log('\n--- APPLY DIAGNOSTICS ---');
+  try {
+    const info = await page.evaluate(() => {
+      const out: any = { multiApply: [], hasApplyText: [] };
+      document.querySelectorAll('button.multi-apply-button').forEach((b) => {
+        const el = b as HTMLButtonElement;
+        const r = el.getBoundingClientRect();
+        const cx = Math.round(r.left + r.width / 2);
+        const cy = Math.round(r.top + r.height / 2);
+        const topEl = document.elementFromPoint(cx, cy) as HTMLElement | null;
+        out.multiApply.push({
+          text: el.innerText.trim(),
+          disabled: el.disabled,
+          classes: el.className,
+          rect: { x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) },
+          coveredBy: topEl && !el.contains(topEl) && topEl !== el ? `${topEl.tagName}.${topEl.className}` : 'self',
+          outerHTML: el.outerHTML.substring(0, 300),
+        });
+      });
+      Array.from(document.querySelectorAll('button')).forEach((b) => {
+        const el = b as HTMLButtonElement;
+        if (el.innerText.toLowerCase().includes('apply')) {
+          out.hasApplyText.push({ text: el.innerText.trim(), classes: el.className, disabled: el.disabled });
+        }
+      });
+      return out;
+    });
+    console.log('multi-apply-button nodes:', JSON.stringify(info.multiApply, null, 2));
+    console.log('buttons with "apply" text:', JSON.stringify(info.hasApplyText, null, 2));
+  } catch (e: any) {
+    console.log('Diagnostics failed:', e?.message ?? e);
+  }
+  await page.screenshot({ path: path.join(__dirname, '..', 'debug-apply.png'), fullPage: true }).catch(() => {});
+  console.log('Saved debug-apply.png');
+  console.log('--- END DIAGNOSTICS ---\n');
+}
+
+/**
+ * Find the genuinely clickable Apply button. The registry selector can match several
+ * nodes (visible button + hidden/sticky duplicates); we return the first VISIBLE one
+ * whose text contains "Apply". Returns null if none is visible.
+ */
+async function resolveApplyButton(page: Page): Promise<ReturnType<Page['locator']> | null> {
+  const applyRes = await healLocator(page, LOCATOR_REGISTRY.applyButton);
+  const loc = applyRes.locator;
+  const count = await loc.count().catch(() => 0);
+
+  // Prefer a visible candidate that contains "Apply" text
+  for (let i = 0; i < count; i++) {
+    const candidate = loc.nth(i);
+    const visible = await candidate.isVisible({ timeout: 1000 }).catch(() => false);
+    if (!visible) continue;
+    const text = (await candidate.innerText().catch(() => '')).toLowerCase();
+    if (text.includes('apply')) return candidate;
+  }
+
+  // Fallback: any visible candidate
+  for (let i = 0; i < count; i++) {
+    const candidate = loc.nth(i);
+    if (await candidate.isVisible({ timeout: 1000 }).catch(() => false)) return candidate;
+  }
+
+  return null;
+}
+
+/**
+ * Click an element as reliably as possible: normal click (respects actionability),
+ * then forced click, then a dispatched MouseEvent in the DOM (works around React
+ * handlers that ignore synthetic Playwright clicks on certain nodes).
+ */
+async function clickElementRobustly(page: Page, el: ReturnType<Page['locator']>): Promise<boolean> {
+  if (await el.click({ timeout: 5000 }).then(() => true).catch(() => false)) return true;
+  if (await el.click({ force: true }).then(() => true).catch(() => false)) return true;
+  return el
+    .evaluate((node: HTMLElement) => {
+      node.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+      node.click();
+      return true;
+    })
+    .catch(() => false);
+}
+
+/**
+ * Confirm that clicking Apply actually triggered an action: either the post-apply
+ * chatbot drawer opened, or the Apply button reset to its disabled state (selections
+ * consumed). Returns false if neither happens within the timeout (click likely missed).
+ */
+async function waitForApplyTriggered(page: Page, applyBtn: ReturnType<Page['locator']>, timeoutMs = 7000): Promise<boolean> {
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    // 1) Post-apply chatbot drawer / questionnaire opened
+    const drawerVisible = await page
+      .locator('.chatbot_Drawer, .chatBotContainer, [class*="chatbot_Drawer"], [contenteditable="true"], .singleselect-radiobutton-container')
+      .first()
+      .isVisible()
+      .catch(() => false);
+    if (drawerVisible) return true;
+
+    // 2) A success / "applied" toast appeared
+    const successToast = await page
+      .locator('.apply-message, [class*="apply-status-header"], :text("successfully applied"), :text("Application sent"), :text("You have applied")')
+      .first()
+      .isVisible()
+      .catch(() => false);
+    if (successToast) return true;
+
+    // 3) The Apply button was consumed: disabled again, or no longer visible
+    const consumed = await applyBtn
+      .evaluate((el: HTMLButtonElement) =>
+        !el.isConnected ||
+        el.disabled ||
+        el.getAttribute('aria-disabled') === 'true' ||
+        el.classList.contains('opaque-button')
+      )
+      .catch(() => true); // evaluate throwing usually means the node was detached → consumed
+    if (consumed) return true;
+
+    await page.waitForTimeout(400);
+  }
+  return false;
+}
+
+/**
+ * Reload the recommended-jobs page and wait until the job list is actually rendered.
+ * Used after every apply batch to start the next batch on a clean, fresh page.
+ */
+async function refreshJobsPage(page: Page): Promise<void> {
+  console.log('\nRefreshing recommended jobs page for the next batch...');
+  // Let any post-apply save/redirect settle before navigating
+  await page.waitForLoadState('load', { timeout: 15000 }).catch(() => {});
+  await page.waitForTimeout(2000);
+
+  let navigated = false;
+  for (let attempt = 1; attempt <= 3 && !navigated; attempt++) {
+    try {
+      await page.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 60000 });
+      navigated = true;
+    } catch (navErr: any) {
+      console.log(`  Navigation attempt ${attempt} failed: ${navErr?.message?.substring(0, 100)}`);
+      await page.waitForTimeout(3000);
+      if (attempt === 3) {
+        console.log('  Forcing reload...');
+        await page.goto(TARGET_URL, { waitUntil: 'commit', timeout: 60000 }).catch(() => {});
+      }
+    }
+  }
+
+  await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
+
+  // Wait for the job checkboxes to actually render so the next batch isn't empty
+  const jobsLoaded = await page
+    .locator(`${LOCATOR_REGISTRY.jobCheckbox.primary}, .tuple-check-box, .saveJobContainer`)
+    .first()
+    .waitFor({ state: 'visible', timeout: 20000 })
+    .then(() => true)
+    .catch(() => false);
+  console.log(jobsLoaded ? '  Fresh job list loaded.' : '  Job list not detected yet; continuing anyway.');
+
+  await page.waitForTimeout(1500);
+  await dismissPopups(page);
+}
+
+interface ApplyResult { applied: number; rejected403: boolean }
+
+async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
   // Find all job checkbox containers (Naukri uses custom icon checkboxes, not <input>)
   let res = await healLocator(page, LOCATOR_REGISTRY.jobCheckbox, { needsMultiple: true });
   let allCheckboxes = res.locator;
@@ -494,7 +779,7 @@ async function selectCheckboxesAndApply(page: Page): Promise<number> {
     console.log('DEBUG - Links with "apply":', applyLinks.slice(0, 10).join(' | '));
 
     console.log(`DEBUG - Page URL: ${page.url()}`);
-    return 0;
+    return { applied: 0, rejected403: false };
   }
 
   // Select up to JOBS_TO_SELECT unchecked checkboxes
@@ -548,35 +833,87 @@ async function selectCheckboxesAndApply(page: Page): Promise<number> {
 
   if (selected === 0) {
     console.log('Could not select any checkboxes.');
-    return 0;
+    return { applied: 0, rejected403: false };
   }
 
   // Now find and click the Apply button
   await page.waitForTimeout(1000); // wait for Apply button to appear
 
-  const applyRes = await healLocator(page, LOCATOR_REGISTRY.applyButton);
-  const applyBtn = applyRes.locator.first();
-  const applyVisible = await applyBtn.isVisible({ timeout: 5000 }).catch(() => false);
-
-  if (applyVisible) {
-    console.log(`Apply button found${applyRes.healed ? ' (healed)' : ''}. Clicking...`);
-    await applyBtn.scrollIntoViewIfNeeded({ timeout: 3000 }).catch(() => {});
-    await applyBtn.click({ force: true });
-    console.log('Apply button clicked!');
-    await page.waitForTimeout(3000); // wait for popup to appear
-    // Handle the post-apply chatbot popup
-    await handlePostApplyPopup(page);
-    return selected;
-  } else {
+  // Resolve the real, clickable "Apply N Jobs" button (the visible one with "Apply" text).
+  let applyBtn = await resolveApplyButton(page);
+  if (!applyBtn) {
     console.log('Apply button not visible after selecting checkboxes.');
-    // Debug: check what buttons exist
     const buttons = await page.locator('button').allTextContents();
     console.log('DEBUG - Buttons on page:', buttons.filter(t => t.trim()).slice(0, 20).join(' | '));
-    const links = await page.locator('a').allTextContents();
-    const applyLinks = links.filter(t => t.toLowerCase().includes('apply'));
-    console.log('DEBUG - Links with "apply":', applyLinks.slice(0, 10).join(' | '));
-    return 0;
+    return { applied: 0, rejected403: false };
   }
+
+  // Click and use the apply API response status as the source of truth.
+  // 200/201 = applied; 403 = Naukri blocked it (rate limit / cap / session). The UI alone is unreliable.
+  let apiStatus: number | null = null;
+  let applyTriggered = false;
+
+  for (let attempt = 1; attempt <= 2 && !applyTriggered && apiStatus !== 403; attempt++) {
+    const fresh = await resolveApplyButton(page);
+    if (fresh) applyBtn = fresh;
+    if (!applyBtn) break;
+
+    const enabled = await waitForApplyEnabled(page, applyBtn);
+    if (!enabled) {
+      console.log(`  Apply still disabled (attempt ${attempt}). Re-toggling a checkbox to enable it...`);
+      const firstChecked = allCheckboxes.nth(0);
+      await firstChecked.click({ force: true }).catch(() => {});
+      await page.waitForTimeout(400);
+      await firstChecked.click({ force: true }).catch(() => {});
+      await page.waitForTimeout(800);
+      const reResolved = await resolveApplyButton(page);
+      if (reResolved) applyBtn = reResolved;
+      await waitForApplyEnabled(page, applyBtn);
+    }
+
+    const btnLabel = (await applyBtn.innerText().catch(() => 'Apply')).trim();
+    console.log(`  Clicking "${btnLabel}" (attempt ${attempt})...`);
+    await applyBtn.scrollIntoViewIfNeeded({ timeout: 3000 }).catch(() => {});
+
+    const clickTs = Date.now();
+    await clickElementRobustly(page, applyBtn);
+
+    // Prefer the network signal; fall back to DOM detection if no apply API response is seen.
+    apiStatus = await waitForApplyApiStatus(page, clickTs, 12000);
+    if (apiStatus === 200 || apiStatus === 201) {
+      applyTriggered = true;
+    } else if (apiStatus === 403) {
+      console.log('  Naukri rejected the application with HTTP 403 (apply blocked).');
+      break;
+    } else if (apiStatus === null) {
+      applyTriggered = await waitForApplyTriggered(page, applyBtn, 5000);
+      if (!applyTriggered && attempt < 2) {
+        console.log('  Apply not confirmed (no API response) — retrying once...');
+        await page.waitForTimeout(1500);
+      }
+    } else {
+      console.log(`  Apply API returned HTTP ${apiStatus}.`);
+      if (attempt < 2) await page.waitForTimeout(1500);
+    }
+  }
+
+  if (apiStatus === 403) {
+    console.log('Application BLOCKED by Naukri (HTTP 403). Not counting these as applied.');
+    return { applied: 0, rejected403: true };
+  }
+
+  if (applyTriggered) {
+    console.log('Apply confirmed!');
+    await page.waitForTimeout(3000); // wait for popup to appear
+    await handlePostApplyPopup(page);
+    return { applied: selected, rejected403: false };
+  }
+
+  console.log('Apply could not be confirmed.');
+  await dumpApplyDiagnostics(page);
+  await page.waitForTimeout(3000);
+  await handlePostApplyPopup(page);
+  return { applied: 0, rejected403: false };
 }
 
 (async () => {
@@ -599,35 +936,83 @@ async function selectCheckboxesAndApply(page: Page): Promise<number> {
       throw new Error(`Invalid shard assignment: SHARD_INDEX=${SHARD_INDEX}, SHARD_TOTAL=${SHARD_TOTAL}`);
     }
 
-    const launchOptions: Parameters<typeof chromium.launch>[0] = {
-      headless: HEADLESS,
-      args: ['--disable-blink-features=AutomationControlled'],
-    };
-    if (BROWSER_CHANNEL && BROWSER_CHANNEL.trim().length > 0) {
-      launchOptions.channel = BROWSER_CHANNEL;
-    } else {
-      launchOptions.channel = 'msedge';
-    }
-
-    browser = await chromium.launch(launchOptions);
-
     if (REQUIRE_SESSION_FILE && !fs.existsSync(SESSION_FILE)) {
       throw new Error('REQUIRE_SESSION_FILE=true but naukri-session.json was not found.');
     }
 
-    context = fs.existsSync(SESSION_FILE)
+    let sessionExists = fs.existsSync(SESSION_FILE);
+
+    // First-time setup with no saved session: force a visible browser so the
+    // user can log in manually (manual login is impossible in headless mode).
+    let effectiveHeadless = HEADLESS;
+    if (!sessionExists) {
+      if (ALLOW_MANUAL_LOGIN) {
+        if (HEADLESS) {
+          console.log('No saved session (naukri-session.json) found. Forcing a visible browser so you can log in manually.');
+        } else {
+          console.log('No saved session (naukri-session.json) found. A visible browser will open for manual login.');
+        }
+        effectiveHeadless = false;
+      } else {
+        throw new Error('No naukri-session.json found and ALLOW_MANUAL_LOGIN=false. Provide a valid session file/secret.');
+      }
+    }
+
+    browser = await chromium.launch(buildLaunchOptions(effectiveHeadless));
+    context = sessionExists
       ? await browser.newContext({ storageState: SESSION_FILE })
       : await browser.newContext();
 
-    const page = await context.newPage();
+    const openPage = async (): Promise<Page> => {
+      const p = await context!.newPage();
+      attachApplyMonitor(p);
+      return p;
+    };
+
+    let page = await openPage();
 
     // Navigate to recommended jobs
     console.log('Navigating to Naukri recommended jobs...');
     await retry(() => page.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 60000 }), 3);
     await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
 
-    // Handle login
-    await ensureLoggedIn(page, context);
+    // Verify the session is actually authenticated; if not, drive a manual login
+    // and save the session for future runs.
+    if (!(await isLoggedIn(page))) {
+      if (!ALLOW_MANUAL_LOGIN) {
+        throw new Error('Login required but ALLOW_MANUAL_LOGIN=false. Provide a valid naukri-session.json via secret/session file.');
+      }
+
+      // A saved session existed but is expired/invalid while running headless —
+      // relaunch with a visible browser so the user can log in manually.
+      if (effectiveHeadless) {
+        console.log('Saved session is expired or invalid. Relaunching a visible browser for manual login...');
+        await page.close().catch(() => {});
+        await context.close().catch(() => {});
+        await browser.close().catch(() => {});
+
+        effectiveHeadless = false;
+        sessionExists = false;
+        browser = await chromium.launch(buildLaunchOptions(false));
+        context = await browser.newContext();
+        page = await openPage();
+
+        await retry(() => page.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 60000 }), 3);
+        await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
+      }
+
+      await waitForManualLoginAndSave(page, context);
+
+      // Ensure we land back on the recommended jobs page after login
+      if (!page.url().includes('recommendedjobs')) {
+        await retry(() => page.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 60000 }), 3);
+        await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
+      }
+    } else if (!sessionExists) {
+      // Logged in via a fresh context with no prior file (e.g. browser profile) — persist it.
+      console.log('Logged-in session detected. Saving session to naukri-session.json...');
+      await context.storageState({ path: SESSION_FILE }).catch(() => {});
+    }
 
     // Verify we're on the right page
     const currentUrl = page.url();
@@ -660,9 +1045,23 @@ async function selectCheckboxesAndApply(page: Page): Promise<number> {
     }
 
     let totalApplied = 0;
+    let consecutive403 = 0;
 
     for (const loop of shardLoops) {
       console.log(`\n========== LOOP ${loop}/${TOTAL_LOOPS} ==========`);
+
+      // Recover if the page/tab was closed (e.g. Naukri closed it after an apply)
+      if (page.isClosed() || !browser.isConnected()) {
+        if (!browser.isConnected()) {
+          console.log('Browser was closed externally. Stopping gracefully.');
+          break;
+        }
+        console.log('Page was closed unexpectedly. Reopening a new tab and reloading...');
+        page = await openPage();
+        await retry(() => page.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 60000 }), 3).catch(() => {});
+        await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
+        await dismissPopups(page);
+      }
 
       // Scroll to load content
       console.log('Loading page content...');
@@ -675,40 +1074,57 @@ async function selectCheckboxesAndApply(page: Page): Promise<number> {
 
       // Select 5 checkboxes and click Apply
       console.log('\n--- Selecting jobs and applying ---');
-      const applied = await selectCheckboxesAndApply(page);
+      const { applied, rejected403 } = await selectCheckboxesAndApply(page);
 
       if (applied > 0) {
         totalApplied += applied;
+        consecutive403 = 0;
         console.log(`\nLoop ${loop}: Applied to ${applied} jobs (total so far: ${totalApplied})`);
       } else {
-        console.log(`\nLoop ${loop}: No jobs were applied to. Check debug output above.`);
+        console.log(`\nLoop ${loop}: No jobs were applied to.`);
+      }
+
+      // Naukri returned HTTP 403 on the apply API — applications are being blocked
+      // server-side (rate limit / daily cap / session issue). Back off, then stop if it persists.
+      if (rejected403) {
+        consecutive403++;
+        console.log(`\n*** Naukri is BLOCKING applications (HTTP 403), occurrence ${consecutive403}. ***`);
+        console.log('This is a server-side block — usually a daily/hourly apply limit or anti-automation throttle.');
+        if (consecutive403 >= 2) {
+          console.log('Repeated 403s. Stopping the run — try again later (e.g. after a few hours) or re-login.');
+          break;
+        }
+        const backoffMs = 60000;
+        console.log(`Backing off for ${backoffMs / 1000}s before the next attempt...`);
+        await page.waitForTimeout(backoffMs);
       }
 
       // Save session after each loop
       if (context) await context.storageState({ path: SESSION_FILE }).catch(() => {});
 
+      // Refresh the page after every 5-job apply batch so the next batch starts on a
+      // freshly loaded recommended-jobs list (clears applied/selected state and popups).
       if (loop !== shardLoops[shardLoops.length - 1]) {
-        console.log(`\nRefreshing page for next loop...`);
-        // Wait for any save-redirect to complete before navigating
-        await page.waitForLoadState('load', { timeout: 15000 }).catch(() => {});
-        await page.waitForTimeout(3000);
-        // Retry navigation in case of redirect interruption
-        for (let attempt = 1; attempt <= 3; attempt++) {
-          try {
-            await page.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 60000 });
-            break;
-          } catch (navErr: any) {
-            console.log(`  Navigation attempt ${attempt} failed: ${navErr?.message?.substring(0, 100)}`);
-            await page.waitForTimeout(3000);
-            if (attempt === 3) {
-              console.log('  Forcing reload...');
-              await page.goto(TARGET_URL, { waitUntil: 'commit', timeout: 60000 }).catch(() => {});
-            }
-          }
+        if (!browser.isConnected()) {
+          console.log('Browser was closed externally. Stopping gracefully.');
+          break;
         }
-        await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
-        await page.waitForTimeout(3000);
-        await dismissPopups(page);
+        if (page.isClosed()) {
+          console.log('Page closed during apply. Reopening a new tab...');
+          page = await openPage();
+        }
+        try {
+          await refreshJobsPage(page);
+        } catch (refreshErr: any) {
+          // The tab/browser was closed mid-refresh — recover or stop gracefully
+          if (!browser.isConnected()) {
+            console.log('Browser was closed externally during refresh. Stopping gracefully.');
+            break;
+          }
+          console.log(`Refresh interrupted (${refreshErr?.message?.substring(0, 80)}). Reopening tab and retrying...`);
+          page = await openPage();
+          await refreshJobsPage(page).catch(() => {});
+        }
       }
     }
 

@@ -22,11 +22,14 @@ export const LOCATOR_REGISTRY: Record<string, HealableLocator> = {
   },
   applyButton: {
     name: 'Apply Button',
-    primary: 'button#apply-button',
+    primary: 'button.multi-apply-button',
     fallbacks: [
+      'button#apply-button',
+      'button.multi-apply-button.typ-16Bold',
       'button:has-text("Apply")',
       'a:has-text("Apply")',
       '[class*="apply"] button',
+      'button[class*="apply-button"]',
       'button[class*="apply"]',
       'button[class*="Apply"]',
       '.apply-btn',
