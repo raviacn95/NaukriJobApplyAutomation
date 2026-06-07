@@ -1,5 +1,6 @@
 node_modules/
 logs/
+.auth/
 
 # Local browser/session state
 naukri-session.json

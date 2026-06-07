@@ -1,5 +1,5 @@
 {
-  "totalLoops": 20,
+  "totalLoops": 4,
   "jobsPerLoop": 5,
   "targetUrl": "https://www.naukri.com/mnjuser/recommendedjobs",
   "loginTimeoutMs": 180000,
