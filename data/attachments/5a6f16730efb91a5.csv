@@ -1,0 +1,7 @@
+loop,batchIndex,title,company,location,experience,salary,jobUrl,appliedAt,status,jd
+1,1,"Software Engineer 1","Demo Company 1","Remote","3-5 years","Not disclosed","https://www.naukri.com/",2026-06-07T11:57:23.648Z,applied,"Sample job description for Allure report verification."
+1,2,"Software Engineer 2","Demo Company 2","Remote","3-5 years","Not disclosed","https://www.naukri.com/",2026-06-07T11:57:23.648Z,applied,"Sample job description for Allure report verification."
+1,3,"Software Engineer 3","Demo Company 3","Remote","3-5 years","Not disclosed","https://www.naukri.com/",2026-06-07T11:57:23.648Z,applied,"Sample job description for Allure report verification."
+2,1,"Software Engineer 1","Demo Company 1","Remote","3-5 years","Not disclosed","https://www.naukri.com/",2026-06-07T11:57:23.652Z,applied,"Sample job description for Allure report verification."
+2,2,"Software Engineer 2","Demo Company 2","Remote","3-5 years","Not disclosed","https://www.naukri.com/",2026-06-07T11:57:23.652Z,applied,"Sample job description for Allure report verification."
+2,3,"Software Engineer 3","Demo Company 3","Remote","3-5 years","Not disclosed","https://www.naukri.com/",2026-06-07T11:57:23.652Z,applied,"Sample job description for Allure report verification."
