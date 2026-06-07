@@ -4,6 +4,8 @@
   "targetUrl": "https://www.naukri.com/mnjuser/recommendedjobs",
   "loginTimeoutMs": 180000,
   "headless": false,
+  "requireSession": true,
+  "sessionFile": "naukri-session.json",
   "defaultAnswers": {
     "experience": "5",
     "years": "5",

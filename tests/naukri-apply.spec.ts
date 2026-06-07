@@ -21,8 +21,8 @@ const ALLOW_MANUAL_LOGIN: boolean = process.env.ALLOW_MANUAL_LOGIN
   ? process.env.ALLOW_MANUAL_LOGIN.toLowerCase() === 'true'
   : true;
 const REQUIRE_SESSION_FILE: boolean = process.env.REQUIRE_SESSION_FILE
-  ? process.env.REQUIRE_SESSION_FILE.toLowerCase() === 'true'
-  : false;
+  ? process.env.REQUIRE_SESSION_FILE.toLowerCase() !== 'false'
+  : config.requireSession !== false;
 const FAIL_ON_ZERO_APPLIED: boolean = process.env.FAIL_ON_ZERO_APPLIED
   ? process.env.FAIL_ON_ZERO_APPLIED.toLowerCase() === 'true'
   : false;
@@ -161,8 +161,22 @@ async function waitForManualLoginAndSave(page: Page, context: BrowserContext): P
   }
 
   console.log('Login detected! Saving session to naukri-session.json for future runs...');
-  await context.storageState({ path: SESSION_FILE });
+  await saveSession(context);
   console.log(`Session saved at: ${SESSION_FILE}`);
+}
+
+/** Always persist the current browser context back to the session file. */
+async function saveSession(context: BrowserContext): Promise<void> {
+  await context.storageState({ path: SESSION_FILE }).catch(() => {});
+}
+
+/** Create a browser context that always loads the saved session when the file exists. */
+async function createContextWithSession(browser: Browser): Promise<BrowserContext> {
+  if (fs.existsSync(SESSION_FILE)) {
+    console.log(`Using saved session: ${SESSION_FILE}`);
+    return browser.newContext({ storageState: SESSION_FILE });
+  }
+  return browser.newContext();
 }
 
 async function dismissPopups(page: Page) {
@@ -922,7 +936,7 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
 
   const shutdown = async () => {
     try {
-      if (context) await context.storageState({ path: SESSION_FILE }).catch(() => {});
+      if (context) await saveSession(context);
       if (browser) await browser.close().catch(() => {});
     } finally {
       process.exit(0);
@@ -959,9 +973,7 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
     }
 
     browser = await chromium.launch(buildLaunchOptions(effectiveHeadless));
-    context = sessionExists
-      ? await browser.newContext({ storageState: SESSION_FILE })
-      : await browser.newContext();
+    context = await createContextWithSession(browser);
 
     const openPage = async (): Promise<Page> => {
       const p = await context!.newPage();
@@ -977,24 +989,23 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
     await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
 
     // Verify the session is actually authenticated; if not, drive a manual login
-    // and save the session for future runs.
+    // and save the session for future runs (always back to naukri-session.json).
     if (!(await isLoggedIn(page))) {
       if (!ALLOW_MANUAL_LOGIN) {
-        throw new Error('Login required but ALLOW_MANUAL_LOGIN=false. Provide a valid naukri-session.json via secret/session file.');
+        throw new Error('Login required but ALLOW_MANUAL_LOGIN=false. Refresh naukri-session.json or log in once manually.');
       }
 
-      // A saved session existed but is expired/invalid while running headless —
-      // relaunch with a visible browser so the user can log in manually.
+      // Saved session expired/invalid — relaunch visible browser but still load the
+      // existing session file (partial cookies help) and refresh it after login.
       if (effectiveHeadless) {
-        console.log('Saved session is expired or invalid. Relaunching a visible browser for manual login...');
+        console.log('Saved session is expired or invalid. Relaunching a visible browser (keeping session file)...');
         await page.close().catch(() => {});
         await context.close().catch(() => {});
         await browser.close().catch(() => {});
 
         effectiveHeadless = false;
-        sessionExists = false;
         browser = await chromium.launch(buildLaunchOptions(false));
-        context = await browser.newContext();
+        context = await createContextWithSession(browser);
         page = await openPage();
 
         await retry(() => page.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 60000 }), 3);
@@ -1008,10 +1019,10 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
         await retry(() => page.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 60000 }), 3);
         await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
       }
-    } else if (!sessionExists) {
-      // Logged in via a fresh context with no prior file (e.g. browser profile) — persist it.
-      console.log('Logged-in session detected. Saving session to naukri-session.json...');
-      await context.storageState({ path: SESSION_FILE }).catch(() => {});
+    } else {
+      // Session is valid — refresh cookies on disk so scheduled runs stay logged in.
+      await saveSession(context);
+      console.log('Logged-in session verified. Session file refreshed.');
     }
 
     // Verify we're on the right page
@@ -1039,7 +1050,7 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
 
     if (shardLoops.length === 0) {
       console.log(`No loops assigned to shard ${SHARD_INDEX}/${SHARD_TOTAL}. Exiting cleanly.`);
-      if (context) await context.storageState({ path: SESSION_FILE }).catch(() => {});
+      if (context) await saveSession(context);
       if (browser) await browser.close();
       process.exit(0);
     }
@@ -1100,7 +1111,7 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
       }
 
       // Save session after each loop
-      if (context) await context.storageState({ path: SESSION_FILE }).catch(() => {});
+      if (context) await saveSession(context);
 
       // Refresh the page after every 5-job apply batch so the next batch starts on a
       // freshly loaded recommended-jobs list (clears applied/selected state and popups).
@@ -1136,7 +1147,7 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
     }
 
     console.log('\n' + getHealSummary());
-    if (context) await context.storageState({ path: SESSION_FILE }).catch(() => {});
+    if (context) await saveSession(context);
     if (browser) await browser.close();
 
   } catch (fatal: any) {

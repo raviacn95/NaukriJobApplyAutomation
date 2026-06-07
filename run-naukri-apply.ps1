@@ -47,6 +47,18 @@ Acquire-RunLock
 # Scheduler default: 4 loops x 5 jobs = 20 applications per cycle (override via env if needed)
 if (-not $env:TOTAL_LOOPS) { $env:TOTAL_LOOPS = "4" }
 if (-not $env:JOBS_PER_LOOP) { $env:JOBS_PER_LOOP = "5" }
+# Always use saved session; fail fast if missing (log in once manually to create it)
+$env:REQUIRE_SESSION_FILE = "true"
+
+$SessionFile = Join-Path $ProjectDir "naukri-session.json"
+if (-not (Test-Path $SessionFile)) {
+  Write-Host "[ERROR] naukri-session.json not found. Log in once manually:"
+  Write-Host "  cd $ProjectDir"
+  Write-Host "  npx tsx tests/naukri-apply.spec.ts"
+  Write-Host "Then re-run the scheduler."
+  Release-RunLock
+  exit 1
+}
 
 if (-not (Test-Path "logs")) { New-Item -ItemType Directory -Path "logs" | Out-Null }
 
