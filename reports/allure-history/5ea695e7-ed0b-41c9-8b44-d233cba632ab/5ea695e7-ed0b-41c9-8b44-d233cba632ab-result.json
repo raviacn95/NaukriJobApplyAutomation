@@ -1,0 +1,407 @@
+{
+  "uuid": "5ea695e7-ed0b-41c9-8b44-d233cba632ab",
+  "name": "Naukri Auto Apply — 6/7/2026, 5:20:47 PM",
+  "historyId": "naukri-auto-apply-run",
+  "fullName": "naukri-apply.spec.ts",
+  "status": "passed",
+  "statusDetails": {},
+  "stage": "finished",
+  "start": 1780833047502,
+  "stop": 1780833047542,
+  "descriptionHtml": "<h3>Applied jobs this run</h3><p><b>Total jobs applied:</b> 6</p><p><b>Jobs recorded:</b> 6</p><table style=\"border-collapse:collapse;width:100%;font-size:13px;\"><thead><tr><th style=\"padding:6px 8px;border:1px solid #ddd;text-align:left;\">#</th><th style=\"padding:6px 8px;border:1px solid #ddd;text-align:left;\">Job</th><th style=\"padding:6px 8px;border:1px solid #ddd;text-align:left;\">Company</th><th style=\"padding:6px 8px;border:1px solid #ddd;text-align:left;\">Short JD</th></tr></thead><tbody><tr><td style=\"padding:6px 8px;border:1px solid #ddd;\">1</td><td style=\"padding:6px 8px;border:1px solid #ddd;\"><b>Software Engineer 1</b></td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Demo Company 1</td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Sample job description for Allure report verification.</td></tr><tr><td style=\"padding:6px 8px;border:1px solid #ddd;\">2</td><td style=\"padding:6px 8px;border:1px solid #ddd;\"><b>Software Engineer 2</b></td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Demo Company 2</td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Sample job description for Allure report verification.</td></tr><tr><td style=\"padding:6px 8px;border:1px solid #ddd;\">3</td><td style=\"padding:6px 8px;border:1px solid #ddd;\"><b>Software Engineer 3</b></td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Demo Company 3</td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Sample job description for Allure report verification.</td></tr><tr><td style=\"padding:6px 8px;border:1px solid #ddd;\">4</td><td style=\"padding:6px 8px;border:1px solid #ddd;\"><b>Software Engineer 1</b></td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Demo Company 1</td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Sample job description for Allure report verification.</td></tr><tr><td style=\"padding:6px 8px;border:1px solid #ddd;\">5</td><td style=\"padding:6px 8px;border:1px solid #ddd;\"><b>Software Engineer 2</b></td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Demo Company 2</td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Sample job description for Allure report verification.</td></tr><tr><td style=\"padding:6px 8px;border:1px solid #ddd;\">6</td><td style=\"padding:6px 8px;border:1px solid #ddd;\"><b>Software Engineer 3</b></td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Demo Company 3</td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Sample job description for Allure report verification.</td></tr></tbody></table>",
+  "steps": [
+    {
+      "name": "Loop 1/2 — 3 job(s) applied",
+      "status": "passed",
+      "stage": "finished",
+      "start": 1780833047527,
+      "stop": 1780833047530,
+      "uuid": "7aa950e0-ab0e-4d4b-950e-b94c53ba3e32",
+      "attachments": [
+        {
+          "name": "Applied Jobs (JSON)",
+          "source": "34fc77b0-eda9-4581-8436-53f0cf8c2a17-attachment.json",
+          "type": "application/json"
+        },
+        {
+          "name": "Job Descriptions",
+          "source": "6b83e45c-25b0-492c-ad3c-55c8e930579e-attachment.txt",
+          "type": "text/plain"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "loop",
+          "value": "1"
+        },
+        {
+          "name": "appliedCount",
+          "value": "3"
+        },
+        {
+          "name": "rejected403",
+          "value": "false"
+        },
+        {
+          "name": "jobsInLoop",
+          "value": "Software Engineer 1 @ Demo Company 1 | Software Engineer 2 @ Demo Company 2 | Software Engineer 3 @ Demo Company 3"
+        }
+      ],
+      "steps": [
+        {
+          "name": "1. Software Engineer 1 @ Demo Company 1",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1780833047527,
+          "stop": 1780833047529,
+          "uuid": "e3fcc182-bf0f-4744-ae80-992e0d820f38",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "1"
+            },
+            {
+              "name": "company",
+              "value": "Demo Company 1"
+            },
+            {
+              "name": "location",
+              "value": "Remote"
+            },
+            {
+              "name": "salary",
+              "value": "Not disclosed"
+            },
+            {
+              "name": "experience",
+              "value": "3-5 years"
+            },
+            {
+              "name": "jobUrl",
+              "value": "https://www.naukri.com/"
+            },
+            {
+              "name": "shortJd",
+              "value": "Sample job description for Allure report verification."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>1. Software Engineer 1</b> — Demo Company 1</p><p style=\"margin:4px 0 12px;color:#555;\">Sample job description for Allure report verification.</p>"
+        },
+        {
+          "name": "2. Software Engineer 2 @ Demo Company 2",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1780833047527,
+          "stop": 1780833047529,
+          "uuid": "423b160c-e615-4dc6-a422-c99f070b179e",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "1"
+            },
+            {
+              "name": "company",
+              "value": "Demo Company 2"
+            },
+            {
+              "name": "location",
+              "value": "Remote"
+            },
+            {
+              "name": "salary",
+              "value": "Not disclosed"
+            },
+            {
+              "name": "experience",
+              "value": "3-5 years"
+            },
+            {
+              "name": "jobUrl",
+              "value": "https://www.naukri.com/"
+            },
+            {
+              "name": "shortJd",
+              "value": "Sample job description for Allure report verification."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>2. Software Engineer 2</b> — Demo Company 2</p><p style=\"margin:4px 0 12px;color:#555;\">Sample job description for Allure report verification.</p>"
+        },
+        {
+          "name": "3. Software Engineer 3 @ Demo Company 3",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1780833047527,
+          "stop": 1780833047529,
+          "uuid": "7462cb81-95ee-4f76-a4b7-5cc575acd1f5",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "1"
+            },
+            {
+              "name": "company",
+              "value": "Demo Company 3"
+            },
+            {
+              "name": "location",
+              "value": "Remote"
+            },
+            {
+              "name": "salary",
+              "value": "Not disclosed"
+            },
+            {
+              "name": "experience",
+              "value": "3-5 years"
+            },
+            {
+              "name": "jobUrl",
+              "value": "https://www.naukri.com/"
+            },
+            {
+              "name": "shortJd",
+              "value": "Sample job description for Allure report verification."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>3. Software Engineer 3</b> — Demo Company 3</p><p style=\"margin:4px 0 12px;color:#555;\">Sample job description for Allure report verification.</p>"
+        }
+      ],
+      "descriptionHtml": "<h4>Loop 1 — 3 job(s)</h4><table style=\"border-collapse:collapse;width:100%;font-size:13px;\"><thead><tr><th style=\"padding:6px 8px;border:1px solid #ddd;text-align:left;\">#</th><th style=\"padding:6px 8px;border:1px solid #ddd;text-align:left;\">Job</th><th style=\"padding:6px 8px;border:1px solid #ddd;text-align:left;\">Company</th><th style=\"padding:6px 8px;border:1px solid #ddd;text-align:left;\">Short JD</th></tr></thead><tbody><tr><td style=\"padding:6px 8px;border:1px solid #ddd;\">1</td><td style=\"padding:6px 8px;border:1px solid #ddd;\"><b>Software Engineer 1</b></td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Demo Company 1</td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Sample job description for Allure report verification.</td></tr><tr><td style=\"padding:6px 8px;border:1px solid #ddd;\">2</td><td style=\"padding:6px 8px;border:1px solid #ddd;\"><b>Software Engineer 2</b></td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Demo Company 2</td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Sample job description for Allure report verification.</td></tr><tr><td style=\"padding:6px 8px;border:1px solid #ddd;\">3</td><td style=\"padding:6px 8px;border:1px solid #ddd;\"><b>Software Engineer 3</b></td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Demo Company 3</td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Sample job description for Allure report verification.</td></tr></tbody></table>"
+    },
+    {
+      "name": "Loop 2/2 — 3 job(s) applied",
+      "status": "passed",
+      "stage": "finished",
+      "start": 1780833047531,
+      "stop": 1780833047533,
+      "uuid": "db649128-d1b6-4c18-8e54-65d17de23646",
+      "attachments": [
+        {
+          "name": "Applied Jobs (JSON)",
+          "source": "a5a37541-ec45-4fa5-b2dc-bf433e52341a-attachment.json",
+          "type": "application/json"
+        },
+        {
+          "name": "Job Descriptions",
+          "source": "aff117b9-ae1a-4824-b6de-f3873472e3e2-attachment.txt",
+          "type": "text/plain"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "loop",
+          "value": "2"
+        },
+        {
+          "name": "appliedCount",
+          "value": "3"
+        },
+        {
+          "name": "rejected403",
+          "value": "false"
+        },
+        {
+          "name": "jobsInLoop",
+          "value": "Software Engineer 1 @ Demo Company 1 | Software Engineer 2 @ Demo Company 2 | Software Engineer 3 @ Demo Company 3"
+        }
+      ],
+      "steps": [
+        {
+          "name": "1. Software Engineer 1 @ Demo Company 1",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1780833047531,
+          "stop": 1780833047533,
+          "uuid": "0232bd05-7897-4ebe-8e5d-0a065a003484",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "2"
+            },
+            {
+              "name": "company",
+              "value": "Demo Company 1"
+            },
+            {
+              "name": "location",
+              "value": "Remote"
+            },
+            {
+              "name": "salary",
+              "value": "Not disclosed"
+            },
+            {
+              "name": "experience",
+              "value": "3-5 years"
+            },
+            {
+              "name": "jobUrl",
+              "value": "https://www.naukri.com/"
+            },
+            {
+              "name": "shortJd",
+              "value": "Sample job description for Allure report verification."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>1. Software Engineer 1</b> — Demo Company 1</p><p style=\"margin:4px 0 12px;color:#555;\">Sample job description for Allure report verification.</p>"
+        },
+        {
+          "name": "2. Software Engineer 2 @ Demo Company 2",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1780833047531,
+          "stop": 1780833047533,
+          "uuid": "e13e61d2-b94e-4952-b86d-f97f8be55367",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "2"
+            },
+            {
+              "name": "company",
+              "value": "Demo Company 2"
+            },
+            {
+              "name": "location",
+              "value": "Remote"
+            },
+            {
+              "name": "salary",
+              "value": "Not disclosed"
+            },
+            {
+              "name": "experience",
+              "value": "3-5 years"
+            },
+            {
+              "name": "jobUrl",
+              "value": "https://www.naukri.com/"
+            },
+            {
+              "name": "shortJd",
+              "value": "Sample job description for Allure report verification."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>2. Software Engineer 2</b> — Demo Company 2</p><p style=\"margin:4px 0 12px;color:#555;\">Sample job description for Allure report verification.</p>"
+        },
+        {
+          "name": "3. Software Engineer 3 @ Demo Company 3",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1780833047531,
+          "stop": 1780833047533,
+          "uuid": "e09958ce-8c8f-4a8e-8772-62eeaefb2b33",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "2"
+            },
+            {
+              "name": "company",
+              "value": "Demo Company 3"
+            },
+            {
+              "name": "location",
+              "value": "Remote"
+            },
+            {
+              "name": "salary",
+              "value": "Not disclosed"
+            },
+            {
+              "name": "experience",
+              "value": "3-5 years"
+            },
+            {
+              "name": "jobUrl",
+              "value": "https://www.naukri.com/"
+            },
+            {
+              "name": "shortJd",
+              "value": "Sample job description for Allure report verification."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>3. Software Engineer 3</b> — Demo Company 3</p><p style=\"margin:4px 0 12px;color:#555;\">Sample job description for Allure report verification.</p>"
+        }
+      ],
+      "descriptionHtml": "<h4>Loop 2 — 3 job(s)</h4><table style=\"border-collapse:collapse;width:100%;font-size:13px;\"><thead><tr><th style=\"padding:6px 8px;border:1px solid #ddd;text-align:left;\">#</th><th style=\"padding:6px 8px;border:1px solid #ddd;text-align:left;\">Job</th><th style=\"padding:6px 8px;border:1px solid #ddd;text-align:left;\">Company</th><th style=\"padding:6px 8px;border:1px solid #ddd;text-align:left;\">Short JD</th></tr></thead><tbody><tr><td style=\"padding:6px 8px;border:1px solid #ddd;\">1</td><td style=\"padding:6px 8px;border:1px solid #ddd;\"><b>Software Engineer 1</b></td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Demo Company 1</td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Sample job description for Allure report verification.</td></tr><tr><td style=\"padding:6px 8px;border:1px solid #ddd;\">2</td><td style=\"padding:6px 8px;border:1px solid #ddd;\"><b>Software Engineer 2</b></td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Demo Company 2</td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Sample job description for Allure report verification.</td></tr><tr><td style=\"padding:6px 8px;border:1px solid #ddd;\">3</td><td style=\"padding:6px 8px;border:1px solid #ddd;\"><b>Software Engineer 3</b></td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Demo Company 3</td><td style=\"padding:6px 8px;border:1px solid #ddd;\">Sample job description for Allure report verification.</td></tr></tbody></table>"
+    }
+  ],
+  "attachments": [
+    {
+      "name": "Full Run Summary (JSON)",
+      "source": "24457216-3479-4085-9bda-f683e7d26548-attachment.json",
+      "type": "application/json"
+    },
+    {
+      "name": "All Applied Jobs (CSV)",
+      "source": "0f1d284b-f2f9-4956-af30-5637b1881ec3-attachment.csv",
+      "type": "text/csv"
+    }
+  ],
+  "parameters": [
+    {
+      "name": "shard",
+      "value": "1/1"
+    },
+    {
+      "name": "totalLoops",
+      "value": "2"
+    },
+    {
+      "name": "jobsPerLoop",
+      "value": "3"
+    },
+    {
+      "name": "runStartedAt",
+      "value": "2026-06-07T11:50:47.502Z"
+    },
+    {
+      "name": "totalApplied",
+      "value": "6"
+    },
+    {
+      "name": "totalJobsRecorded",
+      "value": "6"
+    },
+    {
+      "name": "runFinishedAt",
+      "value": "2026-06-07T11:50:47.534Z"
+    }
+  ],
+  "labels": [
+    {
+      "name": "framework",
+      "value": "playwright"
+    },
+    {
+      "name": "language",
+      "value": "typescript"
+    },
+    {
+      "name": "suite",
+      "value": "Naukri Job Apply"
+    },
+    {
+      "name": "epic",
+      "value": "Naukri Automation"
+    },
+    {
+      "name": "feature",
+      "value": "Recommended Jobs Apply"
+    }
+  ],
+  "links": []
+}

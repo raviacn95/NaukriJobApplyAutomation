@@ -1,0 +1,84 @@
+{
+  "totalApplied": 6,
+  "totalJobs": 6,
+  "jobs": [
+    {
+      "title": "Software Engineer 1",
+      "company": "Demo Company 1",
+      "location": "Remote",
+      "experience": "3-5 years",
+      "salary": "Not disclosed",
+      "jd": "Sample job description for Allure report verification.",
+      "jobUrl": "https://www.naukri.com/",
+      "loop": 1,
+      "batchIndex": 1,
+      "appliedAt": "2026-06-07T11:50:47.526Z",
+      "status": "applied"
+    },
+    {
+      "title": "Software Engineer 2",
+      "company": "Demo Company 2",
+      "location": "Remote",
+      "experience": "3-5 years",
+      "salary": "Not disclosed",
+      "jd": "Sample job description for Allure report verification.",
+      "jobUrl": "https://www.naukri.com/",
+      "loop": 1,
+      "batchIndex": 2,
+      "appliedAt": "2026-06-07T11:50:47.526Z",
+      "status": "applied"
+    },
+    {
+      "title": "Software Engineer 3",
+      "company": "Demo Company 3",
+      "location": "Remote",
+      "experience": "3-5 years",
+      "salary": "Not disclosed",
+      "jd": "Sample job description for Allure report verification.",
+      "jobUrl": "https://www.naukri.com/",
+      "loop": 1,
+      "batchIndex": 3,
+      "appliedAt": "2026-06-07T11:50:47.526Z",
+      "status": "applied"
+    },
+    {
+      "title": "Software Engineer 1",
+      "company": "Demo Company 1",
+      "location": "Remote",
+      "experience": "3-5 years",
+      "salary": "Not disclosed",
+      "jd": "Sample job description for Allure report verification.",
+      "jobUrl": "https://www.naukri.com/",
+      "loop": 2,
+      "batchIndex": 1,
+      "appliedAt": "2026-06-07T11:50:47.531Z",
+      "status": "applied"
+    },
+    {
+      "title": "Software Engineer 2",
+      "company": "Demo Company 2",
+      "location": "Remote",
+      "experience": "3-5 years",
+      "salary": "Not disclosed",
+      "jd": "Sample job description for Allure report verification.",
+      "jobUrl": "https://www.naukri.com/",
+      "loop": 2,
+      "batchIndex": 2,
+      "appliedAt": "2026-06-07T11:50:47.531Z",
+      "status": "applied"
+    },
+    {
+      "title": "Software Engineer 3",
+      "company": "Demo Company 3",
+      "location": "Remote",
+      "experience": "3-5 years",
+      "salary": "Not disclosed",
+      "jd": "Sample job description for Allure report verification.",
+      "jobUrl": "https://www.naukri.com/",
+      "loop": 2,
+      "batchIndex": 3,
+      "appliedAt": "2026-06-07T11:50:47.531Z",
+      "status": "applied"
+    }
+  ]
+}

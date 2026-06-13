@@ -1,0 +1,148 @@
+{
+  "uuid": "045b13e0-c11b-4277-aa28-786b20744084",
+  "name": "Naukri Auto Apply — 6/7/2026, 4:50:02 PM",
+  "historyId": "naukri-auto-apply-run",
+  "fullName": "naukri-apply.spec.ts",
+  "status": "passed",
+  "statusDetails": {},
+  "stage": "finished",
+  "start": 1780831202158,
+  "stop": 1780831202193,
+  "steps": [
+    {
+      "name": "Loop 1/2 — 3 job(s) applied",
+      "status": "passed",
+      "stage": "finished",
+      "start": 1780831202185,
+      "stop": 1780831202186,
+      "uuid": "359f96df-7201-4804-aa9d-7bcc8116ba7b",
+      "attachments": [
+        {
+          "name": "Applied Jobs (JSON)",
+          "source": "c06e6611-562c-4d9e-8626-0fff3ba54fd8-attachment.json",
+          "type": "application/json"
+        },
+        {
+          "name": "Job Descriptions",
+          "source": "399bacd5-b7a7-4cab-b763-8de276e36ae2-attachment.txt",
+          "type": "text/plain"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "loop",
+          "value": "1"
+        },
+        {
+          "name": "appliedCount",
+          "value": "3"
+        },
+        {
+          "name": "rejected403",
+          "value": "false"
+        }
+      ],
+      "steps": []
+    },
+    {
+      "name": "Loop 2/2 — 3 job(s) applied",
+      "status": "passed",
+      "stage": "finished",
+      "start": 1780831202188,
+      "stop": 1780831202189,
+      "uuid": "70c77c4a-f9d3-4d37-9b7a-5bd75d47b90e",
+      "attachments": [
+        {
+          "name": "Applied Jobs (JSON)",
+          "source": "ee13c1cd-52bb-4b78-86d9-e70639688945-attachment.json",
+          "type": "application/json"
+        },
+        {
+          "name": "Job Descriptions",
+          "source": "363e2575-c27a-44ab-9f3e-92eeb07ff341-attachment.txt",
+          "type": "text/plain"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "loop",
+          "value": "2"
+        },
+        {
+          "name": "appliedCount",
+          "value": "3"
+        },
+        {
+          "name": "rejected403",
+          "value": "false"
+        }
+      ],
+      "steps": []
+    }
+  ],
+  "attachments": [
+    {
+      "name": "Full Run Summary (JSON)",
+      "source": "c1dcccb1-e199-4a5d-90fd-65d9b3ac2bf8-attachment.json",
+      "type": "application/json"
+    },
+    {
+      "name": "All Applied Jobs (CSV)",
+      "source": "ffc5caf5-1d0b-4305-944c-2046bccb3b05-attachment.csv",
+      "type": "text/csv"
+    }
+  ],
+  "parameters": [
+    {
+      "name": "shard",
+      "value": "1/1"
+    },
+    {
+      "name": "totalLoops",
+      "value": "2"
+    },
+    {
+      "name": "jobsPerLoop",
+      "value": "3"
+    },
+    {
+      "name": "runStartedAt",
+      "value": "2026-06-07T11:20:02.158Z"
+    },
+    {
+      "name": "totalApplied",
+      "value": "6"
+    },
+    {
+      "name": "totalJobsRecorded",
+      "value": "6"
+    },
+    {
+      "name": "runFinishedAt",
+      "value": "2026-06-07T11:20:02.191Z"
+    }
+  ],
+  "labels": [
+    {
+      "name": "framework",
+      "value": "playwright"
+    },
+    {
+      "name": "language",
+      "value": "typescript"
+    },
+    {
+      "name": "suite",
+      "value": "Naukri Job Apply"
+    },
+    {
+      "name": "epic",
+      "value": "Naukri Automation"
+    },
+    {
+      "name": "feature",
+      "value": "Recommended Jobs Apply"
+    }
+  ],
+  "links": []
+}

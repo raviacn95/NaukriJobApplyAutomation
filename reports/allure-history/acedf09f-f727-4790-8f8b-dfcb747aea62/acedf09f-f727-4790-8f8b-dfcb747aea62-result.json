@@ -1,0 +1,1157 @@
+{
+  "uuid": "acedf09f-f727-4790-8f8b-dfcb747aea62",
+  "name": "Naukri Auto Apply — 6/13/2026, 2:08:48 PM",
+  "historyId": "naukri-auto-apply-run",
+  "fullName": "naukri-apply.spec.ts",
+  "status": "passed",
+  "statusDetails": {},
+  "stage": "finished",
+  "start": 1781339928505,
+  "stop": 1781340052377,
+  "description": "Total jobs applied: 20\n\n1. Unknown @ Unknown | N/A | No description captured.\n2. Unknown @ Unknown | N/A | No description captured.\n3. Unknown @ Unknown | N/A | No description captured.\n4. Unknown @ Unknown | N/A | No description captured.\n5. Unknown @ Unknown | N/A | No description captured.\n6. Unknown @ Unknown | N/A | No description captured.\n7. Unknown @ Unknown | N/A | No description captured.\n8. Unknown @ Unknown | N/A | No description captured.\n9. Unknown @ Unknown | N/A | No description captured.\n10. Unknown @ Unknown | N/A | No description captured.\n11. Unknown @ Unknown | N/A | No description captured.\n12. Unknown @ Unknown | N/A | No description captured.\n13. Unknown @ Unknown | N/A | No description captured.\n14. Unknown @ Unknown | N/A | No description captured.\n15. Unknown @ Unknown | N/A | No description captured.\n16. Unknown @ Unknown | N/A | No description captured.\n17. Unknown @ Unknown | N/A | No description captured.\n18. Unknown @ Unknown | N/A | No description captured.\n19. Unknown @ Unknown | N/A | No description captured.\n20. Unknown @ Unknown | N/A | No description captured.",
+  "descriptionHtml": "<h3>Applied Jobs (from CSV)</h3><p><b>Total jobs applied:</b> 20</p><table style=\"border-collapse:collapse;width:100%;font-size:14px;margin-top:8px;\"><thead><tr><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">#</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Job</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Company</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Experience</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Salary</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Short JD</th></tr></thead><tbody><tr><td style=\"padding:8px;border:1px solid #ccc;\">1</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 1</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">2</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 2</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">3</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 3</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">4</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 4</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">5</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 5</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">6</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 6</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">7</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 7</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">8</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 8</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">9</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 9</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">10</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 10</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">11</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 11</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">12</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 12</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">13</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 13</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">14</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 14</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">15</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 15</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">16</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 16</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">17</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 17</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">18</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 18</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">19</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 19</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">20</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 20</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr></tbody></table>",
+  "steps": [
+    {
+      "name": "Loop 1/4 — 5 job(s) applied",
+      "status": "passed",
+      "stage": "finished",
+      "start": 1781339958219,
+      "stop": 1781339958222,
+      "uuid": "cebc4db1-2ac1-4446-96ca-55de2fe78bbf",
+      "attachments": [
+        {
+          "name": "Applied Jobs (JSON)",
+          "source": "61a85c2f-0b1e-424e-89d3-92b433af87bf-attachment.json",
+          "type": "application/json"
+        },
+        {
+          "name": "Job Descriptions",
+          "source": "07575db7-1a8b-4898-acd1-dae2f3ffc267-attachment.txt",
+          "type": "text/plain"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "loop",
+          "value": "1"
+        },
+        {
+          "name": "appliedCount",
+          "value": "5"
+        },
+        {
+          "name": "rejected403",
+          "value": "false"
+        },
+        {
+          "name": "jobsInLoop",
+          "value": "Unknown @ Unknown | Unknown @ Unknown | Unknown @ Unknown | Unknown @ Unknown | Unknown @ Unknown"
+        }
+      ],
+      "steps": [
+        {
+          "name": "1. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781339958219,
+          "stop": 1781339958221,
+          "uuid": "d2232c55-82f1-4e22-a96a-81602948dd83",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "1"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>1. Job 1</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        },
+        {
+          "name": "2. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781339958219,
+          "stop": 1781339958221,
+          "uuid": "0007b580-4946-4d91-b12d-8ae8a59ae4ff",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "1"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>2. Job 2</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        },
+        {
+          "name": "3. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781339958219,
+          "stop": 1781339958221,
+          "uuid": "88bbe011-dd58-4948-b1d6-54e95942b661",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "1"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>3. Job 3</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        },
+        {
+          "name": "4. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781339958219,
+          "stop": 1781339958221,
+          "uuid": "ade52f5e-5183-48ab-b021-48a45b8509da",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "1"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>4. Job 4</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        },
+        {
+          "name": "5. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781339958219,
+          "stop": 1781339958221,
+          "uuid": "7fc862b4-7893-434c-ba43-aaabfd657835",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "1"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>5. Job 5</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        }
+      ],
+      "descriptionHtml": "<h4>Loop 1</h4><p><b>Total jobs applied:</b> 5</p><table style=\"border-collapse:collapse;width:100%;font-size:14px;margin-top:8px;\"><thead><tr><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">#</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Job</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Company</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Experience</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Salary</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Short JD</th></tr></thead><tbody><tr><td style=\"padding:8px;border:1px solid #ccc;\">1</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 1</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">2</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 2</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">3</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 3</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">4</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 4</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">5</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 5</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr></tbody></table>"
+    },
+    {
+      "name": "Loop 2/4 — 5 job(s) applied",
+      "status": "passed",
+      "stage": "finished",
+      "start": 1781339989400,
+      "stop": 1781339989403,
+      "uuid": "20469848-2fc0-4d2d-9e92-de8ffd7f52dd",
+      "attachments": [
+        {
+          "name": "Applied Jobs (JSON)",
+          "source": "b034325a-d3e1-40d6-8324-74ac9cbda789-attachment.json",
+          "type": "application/json"
+        },
+        {
+          "name": "Job Descriptions",
+          "source": "8fa09fdc-1b41-4683-b9e7-f51c552a6aa5-attachment.txt",
+          "type": "text/plain"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "loop",
+          "value": "2"
+        },
+        {
+          "name": "appliedCount",
+          "value": "5"
+        },
+        {
+          "name": "rejected403",
+          "value": "false"
+        },
+        {
+          "name": "jobsInLoop",
+          "value": "Unknown @ Unknown | Unknown @ Unknown | Unknown @ Unknown | Unknown @ Unknown | Unknown @ Unknown"
+        }
+      ],
+      "steps": [
+        {
+          "name": "1. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781339989400,
+          "stop": 1781339989402,
+          "uuid": "08de6524-4f9b-4964-a4c8-34d38d7f85d8",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "2"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>1. Job 1</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        },
+        {
+          "name": "2. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781339989400,
+          "stop": 1781339989402,
+          "uuid": "4de5dc46-3a67-4f55-b067-f999a2aa0bc8",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "2"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>2. Job 2</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        },
+        {
+          "name": "3. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781339989400,
+          "stop": 1781339989403,
+          "uuid": "be6c36c1-1956-4721-b406-51931e1611b2",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "2"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>3. Job 3</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        },
+        {
+          "name": "4. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781339989400,
+          "stop": 1781339989403,
+          "uuid": "1c495da9-4452-455d-9671-de33a3f7604e",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "2"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>4. Job 4</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        },
+        {
+          "name": "5. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781339989400,
+          "stop": 1781339989403,
+          "uuid": "d8cb1d36-9beb-4048-8f37-16e8efc1f423",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "2"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>5. Job 5</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        }
+      ],
+      "descriptionHtml": "<h4>Loop 2</h4><p><b>Total jobs applied:</b> 5</p><table style=\"border-collapse:collapse;width:100%;font-size:14px;margin-top:8px;\"><thead><tr><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">#</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Job</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Company</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Experience</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Salary</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Short JD</th></tr></thead><tbody><tr><td style=\"padding:8px;border:1px solid #ccc;\">1</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 1</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">2</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 2</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">3</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 3</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">4</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 4</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">5</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 5</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr></tbody></table>"
+    },
+    {
+      "name": "Loop 3/4 — 5 job(s) applied",
+      "status": "passed",
+      "stage": "finished",
+      "start": 1781340019847,
+      "stop": 1781340019849,
+      "uuid": "f97b264a-76e0-4834-ba99-0980fb11ebc4",
+      "attachments": [
+        {
+          "name": "Applied Jobs (JSON)",
+          "source": "cd532e67-d1c5-4a34-8b5d-4a31ddc14013-attachment.json",
+          "type": "application/json"
+        },
+        {
+          "name": "Job Descriptions",
+          "source": "8111293f-803f-4916-b94d-fce9a4c099bb-attachment.txt",
+          "type": "text/plain"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "loop",
+          "value": "3"
+        },
+        {
+          "name": "appliedCount",
+          "value": "5"
+        },
+        {
+          "name": "rejected403",
+          "value": "false"
+        },
+        {
+          "name": "jobsInLoop",
+          "value": "Unknown @ Unknown | Unknown @ Unknown | Unknown @ Unknown | Unknown @ Unknown | Unknown @ Unknown"
+        }
+      ],
+      "steps": [
+        {
+          "name": "1. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781340019847,
+          "stop": 1781340019849,
+          "uuid": "ae9bf2c5-bc81-49f8-b964-d9b9cb9cd13c",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "3"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>1. Job 1</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        },
+        {
+          "name": "2. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781340019847,
+          "stop": 1781340019849,
+          "uuid": "42f38b48-784c-4784-9bef-ee3b87f448c4",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "3"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>2. Job 2</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        },
+        {
+          "name": "3. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781340019847,
+          "stop": 1781340019849,
+          "uuid": "6d25ab37-ac0a-4aaf-8ff4-890e4fb859b5",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "3"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>3. Job 3</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        },
+        {
+          "name": "4. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781340019847,
+          "stop": 1781340019849,
+          "uuid": "5743f4b1-55ff-483f-b3ab-2086e5b0bbbc",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "3"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>4. Job 4</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        },
+        {
+          "name": "5. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781340019847,
+          "stop": 1781340019849,
+          "uuid": "0dfaeb04-e94c-47a1-bc94-18546902d3aa",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "3"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>5. Job 5</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        }
+      ],
+      "descriptionHtml": "<h4>Loop 3</h4><p><b>Total jobs applied:</b> 5</p><table style=\"border-collapse:collapse;width:100%;font-size:14px;margin-top:8px;\"><thead><tr><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">#</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Job</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Company</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Experience</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Salary</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Short JD</th></tr></thead><tbody><tr><td style=\"padding:8px;border:1px solid #ccc;\">1</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 1</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">2</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 2</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">3</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 3</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">4</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 4</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">5</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 5</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr></tbody></table>"
+    },
+    {
+      "name": "Loop 4/4 — 5 job(s) applied",
+      "status": "passed",
+      "stage": "finished",
+      "start": 1781340051695,
+      "stop": 1781340051696,
+      "uuid": "1a32130b-30ee-4e9b-b1c4-dec5e2dc3062",
+      "attachments": [
+        {
+          "name": "Applied Jobs (JSON)",
+          "source": "b9db63ab-ad5a-4254-8e96-11c678bda870-attachment.json",
+          "type": "application/json"
+        },
+        {
+          "name": "Job Descriptions",
+          "source": "76083368-5c3a-40e6-974e-bd86b48465af-attachment.txt",
+          "type": "text/plain"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "loop",
+          "value": "4"
+        },
+        {
+          "name": "appliedCount",
+          "value": "5"
+        },
+        {
+          "name": "rejected403",
+          "value": "false"
+        },
+        {
+          "name": "jobsInLoop",
+          "value": "Unknown @ Unknown | Unknown @ Unknown | Unknown @ Unknown | Unknown @ Unknown | Unknown @ Unknown"
+        }
+      ],
+      "steps": [
+        {
+          "name": "1. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781340051695,
+          "stop": 1781340051696,
+          "uuid": "fbeeef04-af6c-4f33-92ed-1ac0e84b2a58",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "4"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>1. Job 1</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        },
+        {
+          "name": "2. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781340051695,
+          "stop": 1781340051696,
+          "uuid": "aab74d2a-c305-4a34-a206-3d984aa1b6c0",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "4"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>2. Job 2</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        },
+        {
+          "name": "3. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781340051695,
+          "stop": 1781340051696,
+          "uuid": "9bfbb0ed-db67-4ffd-96fe-ec5c3e4d3d0c",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "4"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>3. Job 3</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        },
+        {
+          "name": "4. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781340051695,
+          "stop": 1781340051696,
+          "uuid": "6200092f-d009-4563-8684-e2548eb1146f",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "4"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>4. Job 4</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        },
+        {
+          "name": "5. Unknown role @ Unknown company",
+          "status": "passed",
+          "stage": "finished",
+          "start": 1781340051695,
+          "stop": 1781340051696,
+          "uuid": "2c501e39-cfc6-4921-868c-ff905d02681d",
+          "attachments": [],
+          "parameters": [
+            {
+              "name": "loop",
+              "value": "4"
+            },
+            {
+              "name": "company",
+              "value": "N/A"
+            },
+            {
+              "name": "location",
+              "value": "N/A"
+            },
+            {
+              "name": "salary",
+              "value": "N/A"
+            },
+            {
+              "name": "experience",
+              "value": "N/A"
+            },
+            {
+              "name": "jobUrl",
+              "value": "N/A"
+            },
+            {
+              "name": "shortJd",
+              "value": "No description captured."
+            }
+          ],
+          "steps": [],
+          "descriptionHtml": "<p><b>5. Job 5</b> — N/A</p><p style=\"margin:4px 0 12px;color:#555;\">No description captured.</p>"
+        }
+      ],
+      "descriptionHtml": "<h4>Loop 4</h4><p><b>Total jobs applied:</b> 5</p><table style=\"border-collapse:collapse;width:100%;font-size:14px;margin-top:8px;\"><thead><tr><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">#</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Job</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Company</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Experience</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Salary</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Short JD</th></tr></thead><tbody><tr><td style=\"padding:8px;border:1px solid #ccc;\">1</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 1</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">2</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 2</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">3</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 3</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">4</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 4</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr><tr><td style=\"padding:8px;border:1px solid #ccc;\">5</td><td style=\"padding:8px;border:1px solid #ccc;\"><b>Job 5</b></td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">N/A</td><td style=\"padding:8px;border:1px solid #ccc;\">No description captured.</td></tr></tbody></table>"
+    }
+  ],
+  "attachments": [
+    {
+      "name": "Applied Jobs Overview (HTML)",
+      "source": "caf0f8a5-4093-484e-bcaf-5cb96816f90f-attachment.html",
+      "type": "text/html"
+    },
+    {
+      "name": "Full Run Summary (JSON)",
+      "source": "11183425-3b28-4698-a001-8d95bad2c08e-attachment.json",
+      "type": "application/json"
+    },
+    {
+      "name": "All Applied Jobs (CSV)",
+      "source": "4710d7a9-43fb-432d-9bda-34d8a89b6be4-attachment.csv",
+      "type": "text/csv"
+    }
+  ],
+  "parameters": [
+    {
+      "name": "shard",
+      "value": "1/1"
+    },
+    {
+      "name": "totalLoops",
+      "value": "4"
+    },
+    {
+      "name": "jobsPerLoop",
+      "value": "5"
+    },
+    {
+      "name": "runStartedAt",
+      "value": "2026-06-13T08:38:48.505Z"
+    },
+    {
+      "name": "totalApplied",
+      "value": "20"
+    },
+    {
+      "name": "totalJobsRecorded",
+      "value": "20"
+    },
+    {
+      "name": "runFinishedAt",
+      "value": "2026-06-13T08:40:52.374Z"
+    },
+    {
+      "name": "totalJobsApplied",
+      "value": "20"
+    },
+    {
+      "name": "jobsListedInCsv",
+      "value": "20"
+    },
+    {
+      "name": "Job 1",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 2",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 3",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 4",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 5",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 6",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 7",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 8",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 9",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 10",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 11",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 12",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 13",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 14",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 15",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 16",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 17",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 18",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 19",
+      "value": "Unknown @ Unknown — No description captured."
+    },
+    {
+      "name": "Job 20",
+      "value": "Unknown @ Unknown — No description captured."
+    }
+  ],
+  "labels": [
+    {
+      "name": "framework",
+      "value": "playwright"
+    },
+    {
+      "name": "language",
+      "value": "typescript"
+    },
+    {
+      "name": "suite",
+      "value": "Naukri Job Apply"
+    },
+    {
+      "name": "epic",
+      "value": "Naukri Automation"
+    },
+    {
+      "name": "feature",
+      "value": "Recommended Jobs Apply"
+    }
+  ],
+  "links": []
+}

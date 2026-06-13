@@ -44,33 +44,36 @@ function Release-RunLock {
 
 Acquire-RunLock
 
+# Naukri/Akamai blocks headless browsers on recommended jobs — use visible Edge
+if (-not $env:HEADLESS) { $env:HEADLESS = "false" }
 # Scheduler default: 4 loops x 5 jobs = 20 applications per cycle (override via env if needed)
 if (-not $env:TOTAL_LOOPS) { $env:TOTAL_LOOPS = "4" }
 if (-not $env:JOBS_PER_LOOP) { $env:JOBS_PER_LOOP = "5" }
 # Always use saved session; fail fast if missing (log in once manually to create it)
 $env:REQUIRE_SESSION_FILE = "true"
 
-$SessionFile = Join-Path $ProjectDir "naukri-session.json"
-if (-not (Test-Path $SessionFile)) {
-  Write-Host "[ERROR] naukri-session.json not found. Log in once manually:"
-  Write-Host "  cd $ProjectDir"
-  Write-Host "  npx tsx tests/naukri-apply.spec.ts"
-  Write-Host "Then re-run the scheduler."
-  Release-RunLock
-  exit 1
-}
-
 if (-not (Test-Path "logs")) { New-Item -ItemType Directory -Path "logs" | Out-Null }
 
 $ts = Get-Date -Format "yyyyMMdd_HHmmss"
 $logFile = "logs\run-$ts.log"
 
-try {
-  "=" * 50 | Out-File $logFile -Append
-  "Run started: $(Get-Date)" | Out-File $logFile -Append
-  "PID: $PID | TOTAL_LOOPS=$($env:TOTAL_LOOPS) | JOBS_PER_LOOP=$($env:JOBS_PER_LOOP)" | Out-File $logFile -Append
-  "=" * 50 | Out-File $logFile -Append
+function Write-RunLog([string]$Message) {
+  $line = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') $Message"
+  Write-Host $line
+  $line | Out-File $logFile -Append -Encoding utf8
+}
 
+Write-RunLog "Run started (PID $PID)"
+Write-RunLog "TOTAL_LOOPS=$($env:TOTAL_LOOPS) JOBS_PER_LOOP=$($env:JOBS_PER_LOOP) HEADLESS=$($env:HEADLESS)"
+
+$SessionFile = Join-Path $ProjectDir "naukri-session.json"
+if (-not (Test-Path $SessionFile)) {
+  Write-RunLog "[ERROR] naukri-session.json not found. Run: npm run scheduler:setup-session"
+  Release-RunLock
+  exit 1
+}
+
+try {
   $process = Start-Process -FilePath "C:\Program Files\nodejs\npx.cmd" `
     -ArgumentList "tsx", "tests/naukri-apply.spec.ts" `
     -WorkingDirectory $ProjectDir `
@@ -82,8 +85,21 @@ try {
   Get-Content "$logFile.stderr" -ErrorAction SilentlyContinue | Out-File $logFile -Append
   Remove-Item "$logFile.stdout", "$logFile.stderr" -ErrorAction SilentlyContinue
 
-  "Exit code: $($process.ExitCode)" | Out-File $logFile -Append
-  "Run finished: $(Get-Date)" | Out-File $logFile -Append
+  Write-RunLog "Exit code: $($process.ExitCode)"
+
+  if ($process.ExitCode -eq 0 -and $env:PUBLISH_ALLURE -ne "false") {
+    Write-RunLog "Publishing Allure report to GitHub Pages..."
+    $publishArgs = @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", (Join-Path $ProjectDir "scripts\publish-allure-github.ps1"))
+    if ($env:COMMIT_ALLURE_HISTORY -ne "false") { $publishArgs += "-CommitHistory" }
+    if ($env:SKIP_GIT_PUSH -eq "true") { $publishArgs += "-SkipPush" }
+    try {
+      & powershell @publishArgs 2>&1 | Out-File $logFile -Append
+    } catch {
+      Write-RunLog "Allure publish failed: $_"
+    }
+  }
+
+  exit $process.ExitCode
 } finally {
   Release-RunLock
 }

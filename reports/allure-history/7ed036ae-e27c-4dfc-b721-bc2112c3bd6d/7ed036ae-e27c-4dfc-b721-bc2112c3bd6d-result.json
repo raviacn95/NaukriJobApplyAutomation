@@ -1,0 +1,253 @@
+{
+  "uuid": "7ed036ae-e27c-4dfc-b721-bc2112c3bd6d",
+  "name": "Naukri Auto Apply — 6/13/2026, 2:05:41 PM",
+  "historyId": "naukri-auto-apply-run",
+  "fullName": "naukri-apply.spec.ts",
+  "status": "passed",
+  "statusDetails": {},
+  "stage": "finished",
+  "start": 1781339741235,
+  "stop": 1781339832934,
+  "description": "Total jobs applied: 0\n\nNo jobs recorded.",
+  "descriptionHtml": "<h3>Applied Jobs (from CSV)</h3><p><b>Total jobs applied:</b> 0</p><table style=\"border-collapse:collapse;width:100%;font-size:14px;margin-top:8px;\"><thead><tr><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">#</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Job</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Company</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Experience</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Salary</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Short JD</th></tr></thead><tbody><tr><td colspan=\"6\">No jobs in CSV</td></tr></tbody></table>",
+  "steps": [
+    {
+      "name": "Loop 1/4 — 0 job(s) applied",
+      "status": "skipped",
+      "stage": "finished",
+      "start": 1781339745515,
+      "stop": 1781339745516,
+      "uuid": "dec5c8a6-1ff1-4777-92dd-6903946f7890",
+      "attachments": [
+        {
+          "name": "Applied Jobs (JSON)",
+          "source": "82975798-a02e-4cb9-a65c-c30d7c4e92ca-attachment.json",
+          "type": "application/json"
+        },
+        {
+          "name": "Job Descriptions",
+          "source": "2a617823-c722-4718-9afe-c53a7ace9569-attachment.txt",
+          "type": "text/plain"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "loop",
+          "value": "1"
+        },
+        {
+          "name": "appliedCount",
+          "value": "0"
+        },
+        {
+          "name": "rejected403",
+          "value": "false"
+        },
+        {
+          "name": "jobsInLoop",
+          "value": "None"
+        }
+      ],
+      "steps": [],
+      "descriptionHtml": "<h4>Loop 1</h4><p><b>Total jobs applied:</b> 0</p><table style=\"border-collapse:collapse;width:100%;font-size:14px;margin-top:8px;\"><thead><tr><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">#</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Job</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Company</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Experience</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Salary</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Short JD</th></tr></thead><tbody><tr><td colspan=\"6\">No jobs in CSV</td></tr></tbody></table>"
+    },
+    {
+      "name": "Loop 2/4 — 0 job(s) applied",
+      "status": "skipped",
+      "stage": "finished",
+      "start": 1781339776069,
+      "stop": 1781339776070,
+      "uuid": "6aefc07c-360d-4906-b94c-71d4ef7c9d97",
+      "attachments": [
+        {
+          "name": "Applied Jobs (JSON)",
+          "source": "3196a15f-9729-472a-99c5-36e407e81b4a-attachment.json",
+          "type": "application/json"
+        },
+        {
+          "name": "Job Descriptions",
+          "source": "7a91b5b9-fcc9-493f-a900-09bb3a29534d-attachment.txt",
+          "type": "text/plain"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "loop",
+          "value": "2"
+        },
+        {
+          "name": "appliedCount",
+          "value": "0"
+        },
+        {
+          "name": "rejected403",
+          "value": "false"
+        },
+        {
+          "name": "jobsInLoop",
+          "value": "None"
+        }
+      ],
+      "steps": [],
+      "descriptionHtml": "<h4>Loop 2</h4><p><b>Total jobs applied:</b> 0</p><table style=\"border-collapse:collapse;width:100%;font-size:14px;margin-top:8px;\"><thead><tr><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">#</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Job</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Company</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Experience</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Salary</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Short JD</th></tr></thead><tbody><tr><td colspan=\"6\">No jobs in CSV</td></tr></tbody></table>"
+    },
+    {
+      "name": "Loop 3/4 — 0 job(s) applied",
+      "status": "skipped",
+      "stage": "finished",
+      "start": 1781339804486,
+      "stop": 1781339804487,
+      "uuid": "0f735053-9018-4289-a2df-a10a0ef71bcc",
+      "attachments": [
+        {
+          "name": "Applied Jobs (JSON)",
+          "source": "1d14652d-f7f5-4603-9c02-ec8bf42b3a97-attachment.json",
+          "type": "application/json"
+        },
+        {
+          "name": "Job Descriptions",
+          "source": "194ac718-bf9d-4c66-91b7-b745e90d25fd-attachment.txt",
+          "type": "text/plain"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "loop",
+          "value": "3"
+        },
+        {
+          "name": "appliedCount",
+          "value": "0"
+        },
+        {
+          "name": "rejected403",
+          "value": "false"
+        },
+        {
+          "name": "jobsInLoop",
+          "value": "None"
+        }
+      ],
+      "steps": [],
+      "descriptionHtml": "<h4>Loop 3</h4><p><b>Total jobs applied:</b> 0</p><table style=\"border-collapse:collapse;width:100%;font-size:14px;margin-top:8px;\"><thead><tr><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">#</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Job</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Company</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Experience</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Salary</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Short JD</th></tr></thead><tbody><tr><td colspan=\"6\">No jobs in CSV</td></tr></tbody></table>"
+    },
+    {
+      "name": "Loop 4/4 — 0 job(s) applied",
+      "status": "skipped",
+      "stage": "finished",
+      "start": 1781339832923,
+      "stop": 1781339832924,
+      "uuid": "6b298209-a4c6-450d-9dc5-bd861995b1d5",
+      "attachments": [
+        {
+          "name": "Applied Jobs (JSON)",
+          "source": "eb303e2f-81c1-44e2-801c-d57a8288bdd1-attachment.json",
+          "type": "application/json"
+        },
+        {
+          "name": "Job Descriptions",
+          "source": "68da7882-f75e-4985-9c0a-dbfcca06ddaa-attachment.txt",
+          "type": "text/plain"
+        }
+      ],
+      "parameters": [
+        {
+          "name": "loop",
+          "value": "4"
+        },
+        {
+          "name": "appliedCount",
+          "value": "0"
+        },
+        {
+          "name": "rejected403",
+          "value": "false"
+        },
+        {
+          "name": "jobsInLoop",
+          "value": "None"
+        }
+      ],
+      "steps": [],
+      "descriptionHtml": "<h4>Loop 4</h4><p><b>Total jobs applied:</b> 0</p><table style=\"border-collapse:collapse;width:100%;font-size:14px;margin-top:8px;\"><thead><tr><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">#</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Job</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Company</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Experience</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Salary</th><th style=\"padding:8px;border:1px solid #ccc;text-align:left;\">Short JD</th></tr></thead><tbody><tr><td colspan=\"6\">No jobs in CSV</td></tr></tbody></table>"
+    }
+  ],
+  "attachments": [
+    {
+      "name": "Applied Jobs Overview (HTML)",
+      "source": "b9db0e2e-8cb3-4664-8d1c-81b4b2d6801f-attachment.html",
+      "type": "text/html"
+    },
+    {
+      "name": "Full Run Summary (JSON)",
+      "source": "3982801b-c674-4492-a055-52d9143e5299-attachment.json",
+      "type": "application/json"
+    },
+    {
+      "name": "All Applied Jobs (CSV)",
+      "source": "7d5de465-5734-49d5-ae90-faf70979cc55-attachment.csv",
+      "type": "text/csv"
+    }
+  ],
+  "parameters": [
+    {
+      "name": "shard",
+      "value": "1/1"
+    },
+    {
+      "name": "totalLoops",
+      "value": "4"
+    },
+    {
+      "name": "jobsPerLoop",
+      "value": "5"
+    },
+    {
+      "name": "runStartedAt",
+      "value": "2026-06-13T08:35:41.235Z"
+    },
+    {
+      "name": "totalApplied",
+      "value": "0"
+    },
+    {
+      "name": "totalJobsRecorded",
+      "value": "0"
+    },
+    {
+      "name": "runFinishedAt",
+      "value": "2026-06-13T08:37:12.931Z"
+    },
+    {
+      "name": "totalJobsApplied",
+      "value": "0"
+    },
+    {
+      "name": "jobsListedInCsv",
+      "value": "0"
+    }
+  ],
+  "labels": [
+    {
+      "name": "framework",
+      "value": "playwright"
+    },
+    {
+      "name": "language",
+      "value": "typescript"
+    },
+    {
+      "name": "suite",
+      "value": "Naukri Job Apply"
+    },
+    {
+      "name": "epic",
+      "value": "Naukri Automation"
+    },
+    {
+      "name": "feature",
+      "value": "Recommended Jobs Apply"
+    }
+  ],
+  "links": []
+}

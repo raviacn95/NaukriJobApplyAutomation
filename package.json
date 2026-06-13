@@ -8,7 +8,14 @@
   },
   "scripts": {
     "apply": "tsx tests/naukri-apply.spec.ts",
-    "run": "tsx tests/naukri-apply.spec.ts"
+    "run": "tsx tests/naukri-apply.spec.ts",
+    "allure:build": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-allure-report.ps1",
+    "allure:enrich": "tsx scripts/enrich-allure-overview.ts",
+    "allure:publish": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/publish-allure-github.ps1",
+    "allure:open": "allure open allure-report",
+    "allure:seed": "tsx scripts/seed-allure-demo.ts",
+    "scheduler:register": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/register-naukri-scheduler.ps1",
+    "scheduler:setup-session": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-naukri-session.ps1"
   },
   "keywords": [
     "playwright",
@@ -20,6 +27,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^25.5.0",
+    "allure-commandline": "^2.42.0",
     "playwright": "^1.58.2",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2"

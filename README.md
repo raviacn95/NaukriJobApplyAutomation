@@ -62,9 +62,10 @@ Update `config.json` to control:
 - total loops
 - jobs selected per loop
 - target URL
+- **jobTarget** — experience (8 yrs) and salary band (18–35 LPA high-pay filter)
 - login timeout
 - headless mode
-- default answers for Naukri chatbot questions
+- default answers for Naukri chatbot questions (CTC answers use 28 LPA current / 35 LPA expected)
 
 ## Notes
 

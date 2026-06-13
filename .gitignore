@@ -1,6 +1,16 @@
 node_modules/
 logs/
 .auth/
+reports/*
+!reports/allure-history/
+!reports/allure-history/**
+!reports/applied-jobs-live.json
+
+allure-results/
+allure-report/
+reports/allure-results-build/
+reports/gh-pages-deploy/
+.gh-pages/
 
 # Local browser/session state
 naukri-session.json

@@ -1,5 +1,8 @@
 import { chromium, Browser, BrowserContext, Page } from 'playwright';
 import { healLocator, healAndFindFirst, LOCATOR_REGISTRY, getHealSummary } from '../src/healer';
+import { NaukriAllureReporter, AppliedJobRecord } from '../src/allure-reporter';
+import { extractJobFromCheckbox } from '../src/job-extractor';
+import { buildTargetSearchUrl, loadJobTarget, matchesJobTarget } from '../src/job-target';
 import * as path from 'path';
 import * as fs from 'fs';
 
@@ -7,7 +10,8 @@ import * as fs from 'fs';
 const CONFIG_PATH = path.join(__dirname, '..', 'config.json');
 const config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
 
-const TARGET_URL: string = config.targetUrl;
+const TARGET_URL: string = buildTargetSearchUrl(loadJobTarget(config.jobTarget), config.targetUrl);
+const JOB_TARGET = loadJobTarget(config.jobTarget);
 const SESSION_FILE = path.join(__dirname, '..', 'naukri-session.json');
 const JOBS_TO_SELECT: number = getPositiveIntEnv('JOBS_PER_LOOP', config.jobsPerLoop);
 const TOTAL_LOOPS: number = getPositiveIntEnv('TOTAL_LOOPS', config.totalLoops);
@@ -172,11 +176,30 @@ async function saveSession(context: BrowserContext): Promise<void> {
 
 /** Create a browser context that always loads the saved session when the file exists. */
 async function createContextWithSession(browser: Browser): Promise<BrowserContext> {
+  const contextOptions: Parameters<Browser['newContext']>[0] = {
+    viewport: { width: 1920, height: 1080 },
+    locale: 'en-IN',
+    timezoneId: 'Asia/Kolkata',
+  };
   if (fs.existsSync(SESSION_FILE)) {
     console.log(`Using saved session: ${SESSION_FILE}`);
-    return browser.newContext({ storageState: SESSION_FILE });
+    contextOptions.storageState = SESSION_FILE;
   }
-  return browser.newContext();
+  return browser.newContext(contextOptions);
+}
+
+async function assertPageAccessible(page: Page): Promise<void> {
+  const title = await page.title().catch(() => '');
+  const body = await page.locator('body').innerText({ timeout: 5000 }).catch(() => '');
+  if (
+    title.includes('Access Denied') ||
+    body.includes('Access Denied') ||
+    body.includes("don't have permission to access")
+  ) {
+    throw new Error(
+      'Naukri blocked the browser (Access Denied). Run with HEADLESS=false and use Edge/Chrome (scheduled runs already do this).',
+    );
+  }
 }
 
 async function dismissPopups(page: Page) {
@@ -703,9 +726,9 @@ async function refreshJobsPage(page: Page): Promise<void> {
   await dismissPopups(page);
 }
 
-interface ApplyResult { applied: number; rejected403: boolean }
+interface ApplyResult { applied: number; rejected403: boolean; jobs: AppliedJobRecord[] }
 
-async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
+async function selectCheckboxesAndApply(page: Page, loop: number): Promise<ApplyResult> {
   // Find all job checkbox containers (Naukri uses custom icon checkboxes, not <input>)
   let res = await healLocator(page, LOCATOR_REGISTRY.jobCheckbox, { needsMultiple: true });
   let allCheckboxes = res.locator;
@@ -793,12 +816,13 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
     console.log('DEBUG - Links with "apply":', applyLinks.slice(0, 10).join(' | '));
 
     console.log(`DEBUG - Page URL: ${page.url()}`);
-    return { applied: 0, rejected403: false };
+    return { applied: 0, rejected403: false, jobs: [] };
   }
 
-  // Select up to JOBS_TO_SELECT unchecked checkboxes
-  // Naukri checkboxes: .naukicon-ot-checkbox = unchecked, .naukicon-ot-Checked = checked
+  // Select up to JOBS_TO_SELECT unchecked checkboxes matching salary/experience target
   let selected = 0;
+  let skippedByFilter = 0;
+  const selectedJobs: AppliedJobRecord[] = [];
   for (let i = 0; i < totalCount && selected < JOBS_TO_SELECT; i++) {
     const checkboxContainer = allCheckboxes.nth(i);
     try {
@@ -806,6 +830,16 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
         await page.evaluate(() => window.scrollBy(0, 400));
         await page.waitForTimeout(300);
       });
+
+      const preview = await extractJobFromCheckbox(page, checkboxContainer, i, loop, selected + 1, 'selected');
+      const filter = matchesJobTarget(preview.experience, preview.salary, JOB_TARGET);
+      if (!filter.match) {
+        skippedByFilter++;
+        console.log(
+          `  Skip job ${i + 1}: ${filter.reason} | ${preview.title || 'Unknown title'} | ${preview.salary || 'salary NA'} | ${preview.experience || 'exp NA'}`,
+        );
+        continue;
+      }
 
       // Check if already selected by looking for the Checked icon class
       const isAlreadyChecked = await checkboxContainer.locator('.naukicon-ot-Checked').count().catch(() => 0);
@@ -823,7 +857,8 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
       const nowChecked = await checkboxContainer.locator('.naukicon-ot-Checked').count().catch(() => 0);
       if (nowChecked > 0) {
         selected++;
-        console.log(`  Checked job ${selected}/${JOBS_TO_SELECT}`);
+        selectedJobs.push({ ...preview, loop, batchIndex: selected, appliedAt: new Date().toISOString(), status: 'applied' });
+        console.log(`  Checked job ${selected}/${JOBS_TO_SELECT}: ${preview.title || 'Unknown'} (${preview.salary || 'salary NA'})`);
         await humanDelay(400, 800);
       } else {
         console.log(`  Click on job ${i} did not toggle checkbox, trying icon click...`);
@@ -834,7 +869,8 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
         const rechecked = await checkboxContainer.locator('.naukicon-ot-Checked').count().catch(() => 0);
         if (rechecked > 0) {
           selected++;
-          console.log(`  Checked job ${selected}/${JOBS_TO_SELECT} (via icon click)`);
+          selectedJobs.push({ ...preview, loop, batchIndex: selected, appliedAt: new Date().toISOString(), status: 'applied' });
+          console.log(`  Checked job ${selected}/${JOBS_TO_SELECT} (via icon): ${preview.title || 'Unknown'}`);
           await humanDelay(400, 800);
         }
       }
@@ -843,11 +879,11 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
     }
   }
 
-  console.log(`Selected ${selected} jobs`);
+  console.log(`Selected ${selected} jobs (${skippedByFilter} skipped by salary/experience filter)`);
 
   if (selected === 0) {
     console.log('Could not select any checkboxes.');
-    return { applied: 0, rejected403: false };
+    return { applied: 0, rejected403: false, jobs: [] };
   }
 
   // Now find and click the Apply button
@@ -859,7 +895,7 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
     console.log('Apply button not visible after selecting checkboxes.');
     const buttons = await page.locator('button').allTextContents();
     console.log('DEBUG - Buttons on page:', buttons.filter(t => t.trim()).slice(0, 20).join(' | '));
-    return { applied: 0, rejected403: false };
+    return { applied: 0, rejected403: false, jobs: [] };
   }
 
   // Click and use the apply API response status as the source of truth.
@@ -913,21 +949,21 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
 
   if (apiStatus === 403) {
     console.log('Application BLOCKED by Naukri (HTTP 403). Not counting these as applied.');
-    return { applied: 0, rejected403: true };
+    return { applied: 0, rejected403: true, jobs: selectedJobs };
   }
 
   if (applyTriggered) {
     console.log('Apply confirmed!');
     await page.waitForTimeout(3000); // wait for popup to appear
     await handlePostApplyPopup(page);
-    return { applied: selected, rejected403: false };
+    return { applied: selected, rejected403: false, jobs: selectedJobs };
   }
 
   console.log('Apply could not be confirmed.');
   await dumpApplyDiagnostics(page);
   await page.waitForTimeout(3000);
   await handlePostApplyPopup(page);
-  return { applied: 0, rejected403: false };
+  return { applied: 0, rejected403: false, jobs: selectedJobs };
 }
 
 (async () => {
@@ -944,6 +980,9 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
   };
   process.on('SIGINT', shutdown);
   process.on('SIGTERM', shutdown);
+
+  let totalApplied = 0;
+  let allureReporter: NaukriAllureReporter | undefined;
 
   try {
     if (SHARD_INDEX > SHARD_TOTAL) {
@@ -987,6 +1026,7 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
     console.log('Navigating to Naukri recommended jobs...');
     await retry(() => page.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 60000 }), 3);
     await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
+    await assertPageAccessible(page);
 
     // Verify the session is actually authenticated; if not, drive a manual login
     // and save the session for future runs (always back to naukri-session.json).
@@ -1015,7 +1055,7 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
       await waitForManualLoginAndSave(page, context);
 
       // Ensure we land back on the recommended jobs page after login
-      if (!page.url().includes('recommendedjobs')) {
+      if (!page.url().includes('recommendedjobs') && !page.url().includes('-jobs')) {
         await retry(() => page.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 60000 }), 3);
         await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
       }
@@ -1028,7 +1068,7 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
     // Verify we're on the right page
     const currentUrl = page.url();
     console.log('Current URL:', currentUrl);
-    if (!currentUrl.includes('recommendedjobs') && !currentUrl.includes('naukri.com')) {
+    if (!currentUrl.includes('recommendedjobs') && !currentUrl.includes('-jobs') && !currentUrl.includes('naukri.com/jobs')) {
       console.log('Not on recommended jobs page. Navigating...');
       await page.goto(TARGET_URL, { waitUntil: 'domcontentloaded', timeout: 60000 });
       await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
@@ -1046,6 +1086,9 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
     }
 
     console.log(`Config: totalLoops=${TOTAL_LOOPS}, jobsPerLoop=${JOBS_TO_SELECT}, headless=${HEADLESS}`);
+    console.log(
+      `Job target: ${JOB_TARGET.experienceYears} yrs exp | ${JOB_TARGET.minSalaryLpa}-${JOB_TARGET.maxSalaryLpa} LPA | URL=${TARGET_URL}`,
+    );
     console.log(`Shard config: shard=${SHARD_INDEX}/${SHARD_TOTAL}, assignedLoops=${shardLoops.length}`);
 
     if (shardLoops.length === 0) {
@@ -1055,8 +1098,13 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
       process.exit(0);
     }
 
-    let totalApplied = 0;
     let consecutive403 = 0;
+
+    allureReporter = new NaukriAllureReporter({
+      shard: `${SHARD_INDEX}/${SHARD_TOTAL}`,
+      totalLoops: TOTAL_LOOPS,
+      jobsPerLoop: JOBS_TO_SELECT,
+    });
 
     for (const loop of shardLoops) {
       console.log(`\n========== LOOP ${loop}/${TOTAL_LOOPS} ==========`);
@@ -1085,7 +1133,8 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
 
       // Select 5 checkboxes and click Apply
       console.log('\n--- Selecting jobs and applying ---');
-      const { applied, rejected403 } = await selectCheckboxesAndApply(page);
+      const { applied, rejected403, jobs } = await selectCheckboxesAndApply(page, loop);
+      allureReporter?.recordLoop(loop, TOTAL_LOOPS, applied, rejected403, jobs);
 
       if (applied > 0) {
         totalApplied += applied;
@@ -1147,12 +1196,14 @@ async function selectCheckboxesAndApply(page: Page): Promise<ApplyResult> {
     }
 
     console.log('\n' + getHealSummary());
+    allureReporter?.finishRun(totalApplied);
     if (context) await saveSession(context);
     if (browser) await browser.close();
 
   } catch (fatal: any) {
     console.error(`[FATAL] ${fatal?.message ?? fatal}`);
     console.log(getHealSummary());
+    allureReporter?.finishRun(totalApplied, String(fatal?.message ?? fatal));
     if (browser) await browser.close().catch(() => {});
     process.exit(1);
   }
